@@ -178,8 +178,8 @@
     .trend-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
     @media(min-width:640px) { .trend-grid { grid-template-columns: repeat(4,1fr); } }
     .trend-card { border-radius: 12px; overflow: hidden; position: relative; aspect-ratio: 3/4; background: var(--bg3); }
-    .trend-card img { width:100%; height:100%; object-fit: cover; transition: transform 0.4s ease; }
-    .trend-card:hover img { transform: scale(1.06); }
+    .trend-card img { width:100%; height:100%; object-fit: contain; background: var(--bg3); transition: transform 0.4s ease; }
+    .trend-card:hover img { transform: scale(1.04); }
     .trend-card .cap { position: absolute; bottom:0; left:0; right:0; background: linear-gradient(transparent, rgba(0,0,0,0.82)); padding: 28px 12px 12px; font-size: 11px; font-weight: 600; line-height: 1.4; pointer-events: none; }
 
     /* ── REFERENCE GRID ── */
@@ -306,6 +306,15 @@
       padding: 3px 8px; border-radius: 5px;
       pointer-events: none; letter-spacing: 0.03em;
       border: 1px solid rgba(253,230,138,0.25);
+    }
+    .own-badge {
+      position: absolute; bottom: 7px; right: 7px;
+      background: rgba(0,0,0,0.78);
+      color: #86efac;
+      font-size: 9px; font-weight: 600;
+      padding: 3px 8px; border-radius: 5px;
+      pointer-events: none; letter-spacing: 0.03em;
+      border: 1px solid rgba(134,239,172,0.28);
     }
 
     /* ── AI GLOBAL NOTICE ── */
@@ -477,7 +486,7 @@
     브랜드 정체성을 완성하는<br>공식 마스코트 캐릭터 기획안
   </p>
   <div class="hero-wrap reveal scale-in" style="transition-delay:0.4s">
-    <img src="chars/char_all3.png" alt="제안 캐릭터 3종 — AI 활용 및 수정" class="lb-trigger" loading="eager">
+    <img src="chars/char_all3.png" alt="제안 캐릭터 3종" class="lb-trigger" loading="eager">
   </div>
   <div class="scroll-indicator">
     <span>스크롤하여 보기</span>
@@ -609,7 +618,7 @@
     <button class="tab-btn active" onclick="switchTab(this,'bc','amiami')">아미아미</button>
     <button class="tab-btn" onclick="switchTab(this,'bc','gamemol')">게임몰</button>
     <button class="tab-btn" onclick="switchTab(this,'bc','herotime')">히어로타임</button>
-    <button class="tab-btn" onclick="switchTab(this,'bc','gundam')">건담냥</button>
+    <button class="tab-btn" onclick="switchTab(this,'bc','gundam')">건담베이스</button>
   </div>
 
   <div id="bc-amiami" class="tab-panel active">
@@ -646,7 +655,7 @@
   </div>
 
   <div id="bc-gundam" class="tab-panel">
-    <h3 class="case-head">건담냥 — 건담 팬 커뮤니티 캐릭터</h3>
+    <h3 class="case-head">냥베걸 — 건담베이스 고양점 마스코트</h3>
     <p class="case-desc">서브컬처 팬들의 감성을 저격한 고양이+건담 컨셉. 포스터·굿즈·매장까지 확장.</p>
     <div class="case-grid stagger">
       <img src="brand_cases/gundam_nyang_illus.png" alt="건담냥 일러스트 — 고양이+건담 컨셉" class="lb-trigger" loading="lazy">
@@ -668,7 +677,7 @@
     겜우리한우리의 정체성을 담은 세 가지 캐릭터 방향성을 제안합니다.
   </p>
   <div class="ai-notice reveal" style="transition-delay:0.3s">
-    🤖 이 섹션의 캐릭터 이미지는 <strong>AI 도구를 활용하여 생성·수정</strong>한 시안입니다. 실제 제작 시 전문 일러스트레이터가 다듬습니다.
+    ✏️ 기본 캐릭터 원본 디자인은 <strong>직접 제작</strong>하였으며, 일부 변형·배경·합성 이미지는 <strong>AI 도구를 활용 및 수정</strong>하였습니다.
   </div>
 
   <div class="char-tab-strip reveal" style="transition-delay:0.35s">
@@ -683,8 +692,8 @@
       <div>
         <div class="char-img-box">
           <div class="img-wrap">
-            <img src="chars/char_A.png" alt="캐릭터 A — 게이머 한우 캐릭터 (AI 활용 및 수정)" class="lb-trigger" loading="lazy">
-            <span class="ai-badge">🤖 AI 활용 및 수정</span>
+            <img src="chars/char_A.png" alt="캐릭터 A — 게이머 한우 캐릭터" class="lb-trigger" loading="lazy">
+            <span class="own-badge">✏️ 직접제작</span>
           </div>
         </div>
         <div class="detail-grid">
@@ -713,8 +722,8 @@
       </div>
     </div>
     <div class="img-wrap" style="border-radius:14px;overflow:hidden;margin-top:20px">
-      <img src="chars/char_A_detai.png" alt="캐릭터 A 디테일 시트 (AI 활용 및 수정)" class="lb-trigger" loading="lazy" style="width:100%">
-      <span class="ai-badge">🤖 AI 활용 및 수정</span>
+      <img src="chars/char_A_detai.png" alt="캐릭터 A 디테일 시트" class="lb-trigger" loading="lazy" style="width:100%">
+      <span class="own-badge">✏️ 직접제작</span>
     </div>
   </div>
 
@@ -724,8 +733,8 @@
       <div>
         <div class="char-img-box" style="border-color:rgba(236,72,153,0.2);background:rgba(236,72,153,0.04)">
           <div class="img-wrap">
-            <img src="chars/char_B.png" alt="캐릭터 B — 고양이 메이드 캐릭터 (AI 활용 및 수정)" class="lb-trigger" loading="lazy">
-            <span class="ai-badge">🤖 AI 활용 및 수정</span>
+            <img src="chars/char_B.png" alt="캐릭터 B — 고양이 메이드 캐릭터" class="lb-trigger" loading="lazy">
+            <span class="own-badge">✏️ 직접제작</span>
           </div>
         </div>
         <div class="detail-grid">
@@ -752,8 +761,8 @@
       </div>
     </div>
     <div class="img-wrap" style="border-radius:14px;overflow:hidden;margin-top:20px">
-      <img src="chars/char_B_detail.png" alt="캐릭터 B 디테일 시트 (AI 활용 및 수정)" class="lb-trigger" loading="lazy" style="width:100%">
-      <span class="ai-badge">🤖 AI 활용 및 수정</span>
+      <img src="chars/char_B_detail.png" alt="캐릭터 B 디테일 시트" class="lb-trigger" loading="lazy" style="width:100%">
+      <span class="own-badge">✏️ 직접제작</span>
     </div>
   </div>
 
@@ -763,8 +772,8 @@
       <div>
         <div class="char-img-box" style="border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.04)">
           <div class="img-wrap">
-            <img src="chars/char_C.png" alt="캐릭터 C — 올라운더 게이머 냥이 (AI 활용 및 수정)" class="lb-trigger" loading="lazy">
-            <span class="ai-badge">🤖 AI 활용 및 수정</span>
+            <img src="chars/char_C.png" alt="캐릭터 C — 올라운더 게이머 냥이" class="lb-trigger" loading="lazy">
+            <span class="own-badge">✏️ 직접제작</span>
           </div>
         </div>
         <div class="detail-grid">
@@ -799,8 +808,8 @@
       </div>
     </div>
     <div class="img-wrap" style="border-radius:14px;overflow:hidden;margin-top:20px">
-      <img src="chars/char_C_detail.png" alt="캐릭터 C 디테일 시트 (AI 활용 및 수정)" class="lb-trigger" loading="lazy" style="width:100%">
-      <span class="ai-badge">🤖 AI 활용 및 수정</span>
+      <img src="chars/char_C_detail.png" alt="캐릭터 C 디테일 시트" class="lb-trigger" loading="lazy" style="width:100%">
+      <span class="own-badge">✏️ 직접제작</span>
     </div>
   </div>
 </section>
@@ -831,11 +840,11 @@
     <h3 class="mb8">온라인 채널 활용</h3>
     <p class="mb16" style="font-size:12px">메인 배너, SNS, 블로그, 이벤트 페이지 등 디지털 채널 전면에 캐릭터 배치</p>
     <div class="usage-grid stagger">
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_main_wide.png" alt="메인 배너 와이드 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_main_narrow.png" alt="메인 배너 세로형 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_sale.png" alt="세일 배너 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/blog_char_pray.png" alt="블로그 기도 캐릭터 포즈 (AI 활용 및 수정)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/blog_char_sitting.png" alt="블로그 앉은 캐릭터 포즈 (AI 활용 및 수정)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_main_wide.png" alt="메인 배너 와이드 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_main_narrow.png" alt="메인 배너 세로형 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_sale.png" alt="세일 배너 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/blog_char_pray.png" alt="블로그 기도 캐릭터 포즈" class="lb-trigger" loading="lazy"><span class="own-badge">✏️ 직접제작</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/blog_char_sitting.png" alt="블로그 앉은 캐릭터 포즈" class="lb-trigger" loading="lazy"><span class="own-badge">✏️ 직접제작</span></div>
     </div>
   </div>
 
@@ -843,9 +852,9 @@
     <h3 class="mb8">오프라인 매장 활용</h3>
     <p class="mb16" style="font-size:12px">포스터, 스탠디, POP 등 매장 VMD 전체에 캐릭터로 통일된 분위기 연출</p>
     <div class="usage-grid stagger">
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/poster_store_photo.png" alt="스토어 포스터 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/standee_mockup.png" alt="스탠디 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/standee_store_photo.png" alt="스탠디 실제 설치 시뮬레이션 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/poster_store_photo.png" alt="스토어 포스터 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/standee_mockup.png" alt="스탠디 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/standee_store_photo.png" alt="스탠디 실제 설치 시뮬레이션 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
     </div>
   </div>
 
@@ -853,13 +862,13 @@
     <h3 class="mb8">굿즈 제품 라인업</h3>
     <p class="mb16" style="font-size:12px">피규어, 아크릴 스탠드, 키링, 쇼핑백, 배송 카드까지 — 자체 굿즈 라인업 구축</p>
     <div class="usage-grid stagger">
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_figure1.png" alt="피규어 목업 1 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_figure2.png" alt="피규어 목업 2 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_acrylic_stand1.png" alt="아크릴 스탠드 1 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_acrylic_stand2.png" alt="아크릴 스탠드 2 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_keyring.png" alt="키링 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_shopping_bag.png" alt="쇼핑백 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
-      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_delivery_card.png" alt="배송 카드 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 목업</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_figure1.png" alt="피규어 목업 1 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_figure2.png" alt="피규어 목업 2 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_acrylic_stand1.png" alt="아크릴 스탠드 1 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_acrylic_stand2.png" alt="아크릴 스탠드 2 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_keyring.png" alt="키링 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_shopping_bag.png" alt="쇼핑백 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_delivery_card.png" alt="배송 카드 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
     </div>
   </div>
 
@@ -883,8 +892,8 @@
     지금이 바로<br><span class="grad-text">캐릭터를 만들<br>최적의 타이밍</span>
   </h2>
   <div class="img-wrap reveal scale-in" style="max-width:340px;margin:24px auto;transition-delay:0.3s;border-radius:12px;overflow:hidden">
-    <img src="chars/char_all3.png" alt="캐릭터 3종 (AI 활용 및 수정)" class="lb-trigger" loading="lazy" style="filter:drop-shadow(0 0 50px rgba(139,92,246,0.5));animation:float 4.5s ease-in-out infinite">
-    <span class="ai-badge">🤖 AI 활용 및 수정</span>
+    <img src="chars/char_all3.png" alt="캐릭터 3종" class="lb-trigger" loading="lazy" style="filter:drop-shadow(0 0 50px rgba(139,92,246,0.5));animation:float 4.5s ease-in-out infinite">
+    <span class="own-badge">✏️ 직접제작</span>
   </div>
   <p class="reveal" style="transition-delay:0.5s;max-width:440px;text-align:center;margin:0 auto">
     겜우리한우리만의 공식 캐릭터는 단순한 마스코트가 아닙니다.<br>
