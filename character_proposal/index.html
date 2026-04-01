@@ -551,90 +551,61 @@
        DESKTOP RESPONSIVE
     ═══════════════════════════════════════ */
 
-    /* 768px+ — tablet/small desktop: start centering content */
+    /* 768px+ : 태블릿 / 소형 데스크톱 */
     @media(min-width: 768px) {
-      /* Center-constrain all sections by converting side padding
-         calc(50vw - 430px) pushes content to max ~860px wide */
       section {
-        padding-left:  max(44px, calc(50vw - 430px));
-        padding-right: max(44px, calc(50vw - 430px));
+        padding-left: 5vw;
+        padding-right: 5vw;
         padding-top: 100px;
         padding-bottom: 80px;
       }
-      /* Cover & closing are center-aligned — give them a bit more breathing room */
-      #s0, #s9 {
-        padding-left:  max(40px, calc(50vw - 380px));
-        padding-right: max(40px, calc(50vw - 380px));
-      }
+      /* ID 선택자는 별도로 재정의 필요 */
+      #s0 { padding: 100px 5vw 80px; }
+      #s9 { padding: 100px 5vw 80px; }
 
-      /* Typography: cap font sizes so they don't balloon */
       h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); }
       h2 { font-size: clamp(2rem, 3.5vw, 2.6rem); }
       p  { font-size: 0.97rem; }
 
-      /* Charts: constrain width & center */
-      .chart-box { max-width: 700px; margin-left: auto; margin-right: auto; }
-
-      /* Grids: more columns on desktop */
-      .trend-grid { grid-template-columns: repeat(4,1fr); }
-      .case-grid  { grid-template-columns: repeat(4,1fr); }
+      .chart-box { max-width: 680px; margin-left: auto; margin-right: auto; }
+      .trend-grid { grid-template-columns: repeat(4, 1fr); }
+      .case-grid  { grid-template-columns: repeat(4, 1fr); }
       .case-grid img { aspect-ratio: 3/2; }
-      .usage-grid { grid-template-columns: repeat(4,1fr); }
-
-      /* Reference: 3 col already, images shouldn't get too tall */
-      .ref-card img { max-height: 280px; object-fit: contain; }
-
-      /* Character layout: two cols + detail row with more cols */
+      .usage-grid { grid-template-columns: repeat(4, 1fr); }
+      .ref-card img { max-height: 260px; object-fit: contain; }
       .char-layout { grid-template-columns: 1fr 1fr; gap: 30px; }
       .detail-grid { grid-template-columns: repeat(4, 1fr); }
-
-      /* Stat boxes: fix runaway number sizes */
       .stat-num { font-size: 1.7rem; }
-
-      /* Vote: center and cap width */
       .vote-wrap { max-width: 680px; margin-left: auto; margin-right: auto; }
-      .vote-cards { gap: 14px; }
       .vote-card { min-width: 0; }
-
-      /* Production grid */
       .prod-grid { max-width: 700px; }
       .prod-origin { max-width: 700px; }
-
-      /* Hero image cap */
       .hero-wrap { max-width: 480px; }
-
-      /* Dot nav: show on all sizes on desktop */
       #dot-nav { display: flex; }
     }
 
-    /* 1100px+ — wide desktop: fully locked to 860px content column */
-    @media(min-width: 1100px) {
+    /* 1024px+ : 일반 데스크톱 */
+    @media(min-width: 1024px) {
+      section       { padding-left: 10vw; padding-right: 10vw; }
+      #s0           { padding: 100px 8vw 80px; }
+      #s9           { padding: 100px 8vw 80px; }
+    }
+
+    /* 1280px+ : 와이드 — 콘텐츠 860px 고정 중앙 정렬 */
+    @media(min-width: 1280px) {
       section {
-        padding-left:  calc(50vw - 430px);
-        padding-right: calc(50vw - 430px);
+        padding-left:  calc((100vw - 860px) / 2);
+        padding-right: calc((100vw - 860px) / 2);
       }
-      #s0, #s9 {
-        padding-left:  calc(50vw - 380px);
-        padding-right: calc(50vw - 380px);
-      }
+      #s0 { padding: 110px calc((100vw - 760px) / 2) 90px; }
+      #s9 { padding: 110px calc((100vw - 760px) / 2) 90px; }
 
-      /* Character detail: 6 cols (original count) */
-      .detail-grid { grid-template-columns: repeat(6, 1fr); }
-
-      /* Insight cards: row on wide screen */
-      .insight-cards { grid-template-columns: repeat(3, 1fr); }
-
-      /* Roadmap: always 3 cols */
-      .roadmap-grid { grid-template-columns: repeat(3, 1fr); }
-
-      /* Production grid */
-      .prod-grid { grid-template-columns: 1fr 1fr; max-width: 700px; }
-
-      /* Direction grid: side by side comfortably */
-      .direction-grid { grid-template-columns: 1fr 1fr; }
-
-      /* Deform: spacing */
-      .deform-row { gap: 32px; }
+      .detail-grid     { grid-template-columns: repeat(6, 1fr); }
+      .insight-cards   { grid-template-columns: repeat(3, 1fr); }
+      .roadmap-grid    { grid-template-columns: repeat(3, 1fr); }
+      .prod-grid       { grid-template-columns: 1fr 1fr; }
+      .direction-grid  { grid-template-columns: 1fr 1fr; }
+      .deform-row      { gap: 32px; }
     }
   </style>
 </head>
