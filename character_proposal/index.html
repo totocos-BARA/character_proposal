@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#0e0e1e">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+  <meta property="og:title" content="겜우리한우리 공식 캐릭터 제안서">
+  <meta property="og:description" content="브랜드 정체성을 완성하는 공식 마스코트 캐릭터 기획안">
+  <title>겜우리한우리 캐릭터 제안서</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #0e0e1e;
+      color: #f1f5f9;
+      font-family: -apple-system, BlinkMacSystemFont, 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    button { cursor: pointer; font-family: inherit; }
+
+    :root {
+      --bg:     #0e0e1e;
+      --bg2:    #13132a;
+      --bg3:    #1a1a35;
+      --orange: #f97316;
+      --purple: #8b5cf6;
+      --teal:   #14b8a6;
+      --pink:   #ec4899;
+      --gold:   #f59e0b;
+      --text:   #f1f5f9;
+      --muted:  #94a3b8;
+      --border: rgba(255,255,255,0.08);
+    }
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 20px; z-index: 9999;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-logo {
+      font-size: 1.4rem; font-weight: 900;
+      background: linear-gradient(135deg, var(--orange), var(--purple));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .loader-bar { width: 180px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+    .loader-fill { height: 100%; background: linear-gradient(90deg, var(--orange), var(--purple)); animation: loadfill 1.4s cubic-bezier(0.4,0,0.2,1) forwards; }
+    @keyframes loadfill { from{width:0} to{width:100%} }
+
+    /* ── PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0;
+      height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--orange), var(--purple));
+      z-index: 1001; transition: width 0.1s linear;
+    }
+
+    /* ── NAV ── */
+    #nav {
+      position: fixed; top: 3px; left: 0; right: 0;
+      background: rgba(14,14,30,0.88);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(139,92,246,0.15);
+      padding: 11px 20px;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 1000;
+    }
+    #nav .brand { font-size: 13px; font-weight: 800; color: var(--orange); letter-spacing: 0.04em; }
+    #nav-title  { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; }
+
+    /* ── DOT NAV ── */
+    #dot-nav {
+      position: fixed; right: 14px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 10px; z-index: 999;
+    }
+    .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.18); border-radius: 50%; cursor: pointer; transition: all 0.3s ease; }
+    .dot.active { background: var(--orange); transform: scale(1.6); }
+    @media(max-width:480px) { #dot-nav { display: none; } }
+
+    /* ── SECTIONS ── */
+    section {
+      min-height: 100vh;
+      padding: 90px 22px 60px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative;
+    }
+    section.alt  { background: var(--bg2); }
+    section.alt2 { background: var(--bg3); }
+
+    /* ── TYPOGRAPHY ── */
+    .label-tag { font-size: 10px; letter-spacing: 0.22em; color: var(--orange); text-transform: uppercase; margin-bottom: 14px; }
+    h1 { font-size: clamp(2.2rem, 9vw, 4.5rem); font-weight: 900; line-height: 1.1; }
+    h2 { font-size: clamp(1.6rem, 6vw, 2.8rem); font-weight: 800; line-height: 1.15; }
+    h3 { font-size: clamp(1rem, 3vw, 1.35rem); font-weight: 700; }
+    p  { color: var(--muted); font-size: 0.92rem; line-height: 1.75; }
+    .highlight { color: var(--orange); }
+    .grad-text {
+      background: linear-gradient(135deg, var(--orange) 0%, var(--purple) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .divider { width: 50px; height: 3px; background: linear-gradient(90deg, var(--orange), var(--purple)); border-radius: 2px; margin: 16px 0 20px; }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.from-left  { transform: translateX(-36px); }
+    .reveal.from-right { transform: translateX(36px); }
+    .reveal.scale-in   { transform: scale(0.88) translateY(20px); }
+    .reveal.visible    { opacity: 1; transform: none; }
+    .stagger > * { opacity: 0; transform: translateY(28px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .stagger.visible > *:nth-child(1) { opacity:1; transform:none; transition-delay:0.05s; }
+    .stagger.visible > *:nth-child(2) { opacity:1; transform:none; transition-delay:0.14s; }
+    .stagger.visible > *:nth-child(3) { opacity:1; transform:none; transition-delay:0.23s; }
+    .stagger.visible > *:nth-child(4) { opacity:1; transform:none; transition-delay:0.32s; }
+    .stagger.visible > *:nth-child(5) { opacity:1; transform:none; transition-delay:0.41s; }
+    .stagger.visible > *:nth-child(6) { opacity:1; transform:none; transition-delay:0.50s; }
+    .stagger.visible > *:nth-child(7) { opacity:1; transform:none; transition-delay:0.59s; }
+
+    /* ── COVER ── */
+    #s0 {
+      background:
+        radial-gradient(ellipse 60% 60% at 20% 50%, rgba(139,92,246,0.13) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 60% at 80% 40%, rgba(249,115,22,0.10) 0%, transparent 60%),
+        var(--bg);
+      text-align: center; padding: 100px 22px 80px; overflow: hidden;
+    }
+    #s0::before {
+      content:''; position:absolute; inset:0; pointer-events:none;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(139,92,246,0.035) 48px, rgba(139,92,246,0.035) 49px),
+        repeating-linear-gradient(90deg, transparent, transparent 48px, rgba(139,92,246,0.035) 48px, rgba(139,92,246,0.035) 49px);
+    }
+    .hero-wrap { max-width: 460px; margin: 0 auto; filter: drop-shadow(0 0 40px rgba(139,92,246,0.38)); animation: float 4.5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    .scroll-indicator {
+      position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      color: var(--muted); font-size: 11px; letter-spacing: 0.1em;
+      animation: fadein 1s 2s both;
+    }
+    .chevron { width: 18px; height: 18px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); animation: bob 1.6s ease-in-out infinite; }
+    @keyframes bob { 0%,100%{transform:rotate(45deg) translate(0,0)} 50%{transform:rotate(45deg) translate(3px,3px)} }
+    @keyframes fadein { from{opacity:0;transform:translateX(-50%) translateY(-16px)} to{opacity:1;transform:translateX(-50%) translateY(0)} }
+
+    /* ── TWO COL ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    @media(max-width:560px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── CARDS ── */
+    .card { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+    .card img { border-radius: 10px; margin-bottom: 14px; width: 100%; }
+    .pill { display: inline-block; background: rgba(249,115,22,0.12); color: var(--orange); border: 1px solid rgba(249,115,22,0.28); padding: 3px 12px; border-radius: 20px; font-size: 11px; margin-bottom: 10px; }
+    .pill.purple { background: rgba(139,92,246,0.12); color: #c4b5fd; border-color: rgba(139,92,246,0.28); }
+
+    /* ── STAT BOXES ── */
+    .stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 20px; }
+    .stat-box { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 12px; padding: 18px 10px; text-align: center; }
+    .stat-num { font-size: clamp(1.4rem, 4vw, 1.9rem); font-weight: 900; color: var(--orange); }
+    .stat-desc { font-size: 10px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+
+    /* ── CHART BOX ── */
+    .chart-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 16px 14px;
+      margin-top: 24px;
+    }
+    .chart-title { font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 14px; text-align: center; }
+
+    /* ── TREND GRID ── */
+    .trend-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
+    @media(min-width:640px) { .trend-grid { grid-template-columns: repeat(4,1fr); } }
+    .trend-card { border-radius: 12px; overflow: hidden; position: relative; aspect-ratio: 3/4; background: var(--bg3); }
+    .trend-card img { width:100%; height:100%; object-fit: contain; background: var(--bg3); transition: transform 0.4s ease; }
+    .trend-card:hover img { transform: scale(1.04); }
+    .trend-card .cap { position: absolute; bottom:0; left:0; right:0; background: linear-gradient(transparent, rgba(0,0,0,0.82)); padding: 28px 12px 12px; font-size: 11px; font-weight: 600; line-height: 1.4; pointer-events: none; }
+
+    /* ── REFERENCE GRID ── */
+    .ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+    @media(min-width:600px) { .ref-grid { grid-template-columns: repeat(3,1fr); } }
+    .ref-card { background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .ref-card img { width: 100%; }
+    .ref-card .ref-cap { padding: 10px 12px; font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+    /* ── TABS ── */
+    .tab-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; margin-bottom: 20px; }
+    .tab-strip::-webkit-scrollbar { display: none; }
+    .tab-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--muted); padding: 7px 15px; border-radius: 20px; font-size: 12px; white-space: nowrap; transition: all 0.2s; }
+    .tab-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── CASE GRID ── */
+    .case-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+    @media(min-width:640px) { .case-grid { grid-template-columns: repeat(3,1fr); } }
+    .case-grid img { width: 100%; border-radius: 10px; aspect-ratio: 4/3; object-fit: cover; }
+    .case-head { margin-bottom: 6px; color: #fde68a; }
+    .case-desc { margin-bottom: 14px; font-size: 12px; }
+
+    /* ── CHARACTER TABS ── */
+    .char-tab-strip { display: flex; gap: 10px; justify-content: center; margin-bottom: 28px; }
+    .char-tab-btn { background: rgba(255,255,255,0.05); border: 2px solid var(--border); color: var(--muted); padding: 9px 22px; border-radius: 28px; font-size: 13px; font-weight: 700; transition: all 0.25s; }
+    .char-tab-btn.active { border-color: var(--purple); color: #fff; background: rgba(139,92,246,0.18); box-shadow: 0 0 20px rgba(139,92,246,0.28); }
+    .char-panel { display: none; }
+    .char-panel.active { display: block; }
+    .char-layout { display: grid; grid-template-columns: 1fr; gap: 22px; }
+    @media(min-width:580px) { .char-layout { grid-template-columns: 1fr 1fr; } }
+    .char-img-box { border-radius: 18px; overflow: hidden; background: rgba(139,92,246,0.05); border: 1px solid rgba(139,92,246,0.18); }
+    .char-img-box img { width: 100%; }
+    .detail-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 12px; }
+    .detail-grid img { width: 100%; border-radius: 8px; border: 1px solid var(--border); aspect-ratio: 1; object-fit: contain; background: rgba(255,255,255,0.03); padding: 8px; }
+    .char-info { display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+    .char-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(139,92,246,0.13); border: 1px solid rgba(139,92,246,0.28); padding: 5px 13px; border-radius: 20px; font-size: 11px; color: #c4b5fd; width: fit-content; }
+    .keywords { display: flex; flex-wrap: wrap; gap: 7px; }
+    .kw { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.24); color: #fdba74; padding: 3px 11px; border-radius: 12px; font-size: 11px; }
+    .kw.pink { background:rgba(236,72,153,0.1); border-color:rgba(236,72,153,0.24); color:#f9a8d4; }
+    .kw.teal { background:rgba(20,184,166,0.1); border-color:rgba(20,184,166,0.24); color:#5eead4; }
+    .char-note { font-size: 11px; border-radius: 8px; padding: 11px 13px; line-height: 1.6; }
+    .char-note.orange { background:rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.2); color:#fdba74; }
+    .char-note.pink   { background:rgba(236,72,153,0.08); border:1px solid rgba(236,72,153,0.2); color:#f9a8d4; }
+    .char-note.teal   { background:rgba(20,184,166,0.08); border:1px solid rgba(20,184,166,0.2); color:#5eead4; }
+
+    /* ── USAGE ── */
+    .usage-tab-btn { background: rgba(20,184,166,0.07); border: 1px solid rgba(20,184,166,0.18); color: var(--muted); padding: 7px 15px; border-radius: 20px; font-size: 12px; white-space: nowrap; transition: all 0.2s; }
+    .usage-tab-btn.active { background: var(--teal); border-color: var(--teal); color: #0e0e1e; font-weight: 700; }
+    .usage-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+    @media(min-width:580px) { .usage-grid { grid-template-columns: repeat(3,1fr); } }
+    .usage-grid img { width: 100%; border-radius: 10px; object-fit: cover; }
+    .usage-panel { display: none; }
+    .usage-panel.active { display: block; }
+
+    /* ── CLOSING ── */
+    #s9 {
+      background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(139,92,246,0.18) 0%, transparent 70%), var(--bg);
+      text-align: center; align-items: center; padding: 100px 22px 80px;
+    }
+
+    /* ── UTILS ── */
+    .mt8{margin-top:8px} .mt16{margin-top:16px} .mt24{margin-top:24px} .mt32{margin-top:32px}
+    .mb4{margin-bottom:4px} .mb8{margin-bottom:8px} .mb16{margin-bottom:16px} .mb24{margin-bottom:24px}
+    .center{text-align:center}
+    .on-white { background: white; border-radius: 8px; padding: 10px; }
+    .lazy-img { background: linear-gradient(90deg,#1a1a35 25%,#252545 50%,#1a1a35 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; }
+    @keyframes shimmer { to{background-position:-200% 0} }
+
+    /* ── IMAGE HINT ── */
+    .img-hint {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: rgba(249,115,22,0.08);
+      border: 1px solid rgba(249,115,22,0.22);
+      color: #fdba74; font-size: 11px;
+      padding: 7px 16px; border-radius: 20px;
+      margin: 20px auto 0; width: fit-content;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── 고객층 분석 ── */
+    .insight-cards { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+    @media(min-width:480px) { .insight-cards { grid-template-columns: repeat(3,1fr); } }
+    .insight-card {
+      border-radius: 12px; padding: 16px 14px; text-align: center;
+    }
+    .insight-card.blue  { background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.28); }
+    .insight-card.pink  { background: rgba(236,72,153,0.12); border: 1px solid rgba(236,72,153,0.28); }
+    .insight-card.purple{ background: rgba(139,92,246,0.12); border: 1px solid rgba(139,92,246,0.28); }
+    .insight-num { font-size: clamp(1.3rem,4vw,1.7rem); font-weight: 900; margin-bottom: 4px; }
+    .insight-desc { font-size: 11px; color: var(--muted); line-height: 1.55; }
+    .benefit-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+    .benefit-item {
+      border-radius: 12px; padding: 14px 18px;
+      font-size: 14px; font-weight: 700; text-align: center;
+    }
+    .benefit-item.sky  { background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); color: #7dd3fc; }
+    .benefit-item.gold { background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); color: #fcd34d; }
+    .benefit-item.green{ background: rgba(52,211,153,0.15); border: 1px solid rgba(52,211,153,0.3); color: #6ee7b7; }
+    .benefit-item.rose { background: rgba(251,113,133,0.15); border: 1px solid rgba(251,113,133,0.3); color: #fda4af; }
+
+    /* ── 방향성 섹션 ── */
+    .direction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+    @media(max-width:480px) { .direction-grid { grid-template-columns: 1fr; } }
+    .direction-card { border-radius: 14px; padding: 18px; }
+    .direction-card.moe  { background: rgba(236,72,153,0.08); border: 1px solid rgba(236,72,153,0.25); }
+    .direction-card.symbol { background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25); }
+    .direction-card h4 { font-size: clamp(1.1rem,3vw,1.3rem); font-weight: 900; margin-bottom: 10px; }
+    .direction-card p { font-size: 12px; color: var(--muted); line-height: 1.7; }
+    .target-badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+    .target-badge {
+      padding: 10px 22px; border-radius: 30px;
+      font-size: clamp(0.95rem,2.5vw,1.1rem); font-weight: 800;
+    }
+    .target-badge.purple { background: rgba(139,92,246,0.25); border: 2px solid #8b5cf6; color: #c4b5fd; }
+    .target-badge.pink   { background: rgba(236,72,153,0.22); border: 2px solid var(--pink); color: #f9a8d4; }
+    .target-badge.teal   { background: rgba(20,184,166,0.22); border: 2px solid var(--teal); color: #5eead4; }
+
+    /* ── 제작 방안 (p28) ── */
+    .prod-origin {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(236,72,153,0.10); border: 2px solid rgba(236,72,153,0.35);
+      border-radius: 14px; padding: 14px 18px; margin-bottom: 18px;
+    }
+    .prod-origin-label {
+      font-size: clamp(1rem,3vw,1.3rem); font-weight: 900; color: #f9a8d4; white-space: nowrap;
+    }
+    .prod-origin-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+    .prod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media(max-width:520px) { .prod-grid { grid-template-columns: 1fr; } }
+    .prod-path-card {
+      border-radius: 14px; padding: 16px; border: 1.5px solid;
+    }
+    .prod-path-card.blue-card  { background: rgba(56,189,248,0.07); border-color: rgba(56,189,248,0.3); }
+    .prod-path-card.purple-card{ background: rgba(216,180,254,0.07); border-color: rgba(216,180,254,0.3); }
+    .prod-method { font-size: 13px; font-weight: 800; margin-bottom: 12px; }
+    .prod-path-card.blue-card   .prod-method { color: #7dd3fc; }
+    .prod-path-card.purple-card .prod-method { color: #d8b4fe; }
+    .prod-pros-label { font-size: 11px; font-weight: 800; color: #86efac; margin-bottom: 4px; }
+    .prod-cons-label { font-size: 11px; font-weight: 800; color: #fca5a5; margin: 8px 0 4px; }
+    .prod-bullet { font-size: 11px; color: #cbd5e1; line-height: 1.7; }
+
+    /* ── 로드맵 (p29) ── */
+    .roadmap-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 8px; }
+    @media(max-width:560px) { .roadmap-grid { grid-template-columns: 1fr; } }
+    .roadmap-col { border-radius: 14px; padding: 16px; border: 1.5px solid; }
+    .roadmap-col.store  { background: rgba(56,189,248,0.07); border-color: rgba(56,189,248,0.3); }
+    .roadmap-col.online { background: rgba(134,239,172,0.07); border-color: rgba(134,239,172,0.3); }
+    .roadmap-col.osmu   { background: rgba(216,180,254,0.07); border-color: rgba(216,180,254,0.3); }
+    .roadmap-col-head { font-size: 13px; font-weight: 900; margin-bottom: 10px; }
+    .roadmap-col.store  .roadmap-col-head { color: #7dd3fc; }
+    .roadmap-col.online .roadmap-col-head { color: #86efac; }
+    .roadmap-col.osmu   .roadmap-col-head { color: #d8b4fe; }
+    .roadmap-items { display: flex; flex-direction: column; gap: 6px; }
+    .roadmap-item { font-size: 11px; color: #cbd5e1; background: rgba(255,255,255,0.04); border-radius: 8px; padding: 6px 10px; }
+
+    /* ── 데포르메 (p30) ── */
+    .deform-wrap { background: rgba(255,255,255,0.03); border: 1.5px solid var(--border); border-radius: 16px; padding: 20px; margin-top: 28px; }
+    .deform-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
+    @media(max-width:480px) { .deform-row { grid-template-columns: 1fr 1fr; } .deform-arrow { display: none; } }
+    .deform-arrow { font-size: 2rem; color: #86efac; text-align: center; }
+    .deform-label { text-align: center; font-size: 10px; color: var(--muted); margin-top: 8px; }
+    .deform-note { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 16px; line-height: 1.7; border-top: 1px solid var(--border); padding-top: 14px; }
+
+    /* ── 투표 카운터 ── */
+    .vote-count-badge {
+      font-size: 20px; font-weight: 900;
+      margin: 4px 0; transition: transform 0.15s ease;
+    }
+    @keyframes popBadge { 0%{transform:scale(1)} 50%{transform:scale(1.5)} 100%{transform:scale(1)} }
+    .vote-count-badge.pop { animation: popBadge 0.3s ease; }
+    .vote-btn-cast {
+      width: 100%; padding: 8px 0;
+      border-radius: 20px; border: none;
+      font-size: 13px; font-weight: 700;
+      margin-top: 6px;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .vote-btn-cast:active { transform: scale(0.96); }
+    .vote-btn-cast.orange { background: var(--orange); color: #fff; }
+    .vote-btn-cast.pink   { background: var(--pink);   color: #fff; }
+    .vote-btn-cast.teal   { background: var(--teal);   color: #0e0e1e; }
+    .vote-bar-count { font-size: 11px; color: var(--muted); min-width: 28px; text-align: right; }
+    .vote-btn-cast:disabled { background: rgba(255,255,255,0.07) !important; color: #64748b !important; cursor: not-allowed; opacity: 0.75; }
+    .admin-reset-btn { display: block; margin: 18px auto 0; background: none; border: none; color: rgba(255,255,255,0.12); font-size: 10px; letter-spacing: 0.08em; cursor: pointer; transition: color 0.2s; padding: 4px 8px; }
+    .admin-reset-btn:hover { color: rgba(255,255,255,0.4); }
+
+    /* ────────────────────────────────
+       LIGHTBOX
+    ──────────────────────────────── */
+    #lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 8000;
+      background: rgba(0,0,0,0.92);
+      align-items: center; justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+      animation: lbfadein 0.2s ease;
+    }
+    #lightbox.open { display: flex; }
+    @keyframes lbfadein { from{opacity:0} to{opacity:1} }
+    #lb-img {
+      max-width: 92vw; max-height: 78vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.8);
+    }
+    #lb-cap {
+      margin-top: 14px;
+      font-size: 12px; color: #94a3b8;
+      text-align: center; max-width: 480px; line-height: 1.6;
+    }
+    #lb-close {
+      position: absolute; top: 18px; right: 18px;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      color: #fff; font-size: 20px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      z-index: 8001;
+    }
+    #lb-close:hover { background: rgba(255,255,255,0.22); }
+
+    /* ── CLICKABLE IMG ── */
+    .lb-trigger {
+      cursor: zoom-in;
+      transition: opacity 0.2s;
+    }
+    .lb-trigger:hover { opacity: 0.88; }
+
+    /* ── AI BADGE WRAPPER ── */
+    .img-wrap { position: relative; display: block; }
+    .img-wrap img { width: 100%; border-radius: inherit; }
+    .ai-badge {
+      position: absolute; bottom: 7px; right: 7px;
+      background: rgba(0,0,0,0.78);
+      color: #fde68a;
+      font-size: 9px; font-weight: 600;
+      padding: 3px 8px; border-radius: 5px;
+      pointer-events: none; letter-spacing: 0.03em;
+      border: 1px solid rgba(253,230,138,0.25);
+    }
+    .own-badge {
+      position: absolute; bottom: 7px; right: 7px;
+      background: rgba(0,0,0,0.78);
+      color: #86efac;
+      font-size: 9px; font-weight: 600;
+      padding: 3px 8px; border-radius: 5px;
+      pointer-events: none; letter-spacing: 0.03em;
+      border: 1px solid rgba(134,239,172,0.28);
+    }
+
+    /* ── AI GLOBAL NOTICE ── */
+    .ai-notice {
+      background: rgba(245,158,11,0.07);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 11px; color: #fde68a;
+      margin-bottom: 20px; line-height: 1.6;
+    }
+
+    /* ────────────────────────────────
+       VOTING SECTION
+    ──────────────────────────────── */
+    .vote-wrap {
+      width: 100%; max-width: 640px;
+      margin: 48px auto 0;
+      text-align: left;
+    }
+    .vote-title {
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      font-weight: 800; color: #fff;
+      text-align: center; margin-bottom: 6px;
+    }
+    .vote-subtitle {
+      font-size: 12px; color: var(--muted);
+      text-align: center; margin-bottom: 6px;
+    }
+    .vote-multi-note {
+      font-size: 11px; color: var(--teal);
+      text-align: center; margin-bottom: 24px;
+      background: rgba(20,184,166,0.07);
+      border: 1px solid rgba(20,184,166,0.2);
+      padding: 6px 14px; border-radius: 20px;
+      display: inline-block;
+      width: 100%;
+    }
+    .vote-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px; margin-bottom: 20px;
+    }
+    @media(max-width:480px) { .vote-cards { grid-template-columns: 1fr; } }
+    .vote-card {
+      background: rgba(255,255,255,0.04);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 10px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .vote-card.sel-A { border-color: var(--orange); background: rgba(249,115,22,0.1); box-shadow: 0 0 24px rgba(249,115,22,0.2); }
+    .vote-card.sel-B { border-color: var(--pink);   background: rgba(236,72,153,0.1);  box-shadow: 0 0 24px rgba(236,72,153,0.2); }
+    .vote-card.sel-C { border-color: var(--teal);   background: rgba(20,184,166,0.1);  box-shadow: 0 0 24px rgba(20,184,166,0.2); }
+    .vote-card img { width: 100%; border-radius: 10px; aspect-ratio: 3/4; object-fit: contain; background: rgba(255,255,255,0.03); }
+    .vote-card-label { font-size: 13px; font-weight: 800; }
+    .vote-card-desc  { font-size: 10px; color: var(--muted); text-align: center; line-height: 1.5; }
+    .vote-check {
+      position: absolute; top: 10px; right: 10px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; transition: all 0.2s;
+    }
+    .vote-card.sel-A .vote-check { background: var(--orange); border-color: var(--orange); }
+    .vote-card.sel-B .vote-check { background: var(--pink);   border-color: var(--pink); }
+    .vote-card.sel-C .vote-check { background: var(--teal);   border-color: var(--teal); }
+    .vote-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .btn-result {
+      background: linear-gradient(135deg, var(--orange), var(--purple));
+      color: #fff; border: none;
+      padding: 12px 28px; border-radius: 30px;
+      font-size: 14px; font-weight: 700;
+      transition: opacity 0.2s;
+    }
+    .btn-result:hover { opacity: 0.85; }
+    .btn-share {
+      background: rgba(255,255,255,0.07);
+      color: var(--text); border: 1px solid var(--border);
+      padding: 12px 22px; border-radius: 30px;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+    .btn-share:hover { background: rgba(255,255,255,0.12); }
+    .vote-results {
+      margin-top: 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 16px;
+    }
+    .vote-results.hidden { display: none; }
+    .vote-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+    .vote-bar-label { font-size: 12px; font-weight: 700; min-width: 36px; }
+    .vote-bar-track { flex: 1; height: 22px; background: rgba(255,255,255,0.06); border-radius: 11px; overflow: hidden; }
+    .vote-bar-fill  { height: 100%; border-radius: 11px; transition: width 0.7s cubic-bezier(0.4,0,0.2,1); display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 10px; font-weight: 700; color: #fff; min-width: 28px; }
+    .vote-bar-fill.A { background: linear-gradient(90deg, #f97316, #fb923c); }
+    .vote-bar-fill.B { background: linear-gradient(90deg, #ec4899, #f472b6); }
+    .vote-bar-fill.C { background: linear-gradient(90deg, #14b8a6, #2dd4bf); }
+    .vote-result-note { font-size: 10px; color: var(--muted); text-align: center; margin-top: 14px; line-height: 1.6; }
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+      background: rgba(30,30,50,0.95);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #f1f5f9; font-size: 13px;
+      padding: 10px 22px; border-radius: 30px;
+      z-index: 7000; opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; }
+
+    /* ═══════════════════════════════════════
+       DESKTOP RESPONSIVE
+    ═══════════════════════════════════════ */
+
+    /* 768px+ : 태블릿 / 소형 데스크톱 */
+    @media(min-width: 768px) {
+      section {
+        padding-left: 5vw;
+        padding-right: 5vw;
+        padding-top: 100px;
+        padding-bottom: 80px;
+      }
+      /* ID 선택자는 별도로 재정의 필요 */
+      #s0 { padding: 100px 5vw 80px; }
+      #s9 { padding: 100px 5vw 80px; }
+
+      h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); }
+      h2 { font-size: clamp(2rem, 3.5vw, 2.6rem); }
+      p  { font-size: 0.97rem; }
+
+      .chart-box { max-width: 680px; margin-left: auto; margin-right: auto; }
+      .trend-grid { grid-template-columns: repeat(4, 1fr); }
+      .case-grid  { grid-template-columns: repeat(4, 1fr); }
+      .case-grid img { aspect-ratio: 3/2; }
+      .usage-grid { grid-template-columns: repeat(4, 1fr); }
+      .ref-card img { max-height: 260px; object-fit: contain; }
+      .char-layout { grid-template-columns: 1fr 1fr; gap: 30px; }
+      .detail-grid { grid-template-columns: repeat(4, 1fr); }
+      .stat-num { font-size: 1.7rem; }
+      .vote-wrap { max-width: 680px; margin-left: auto; margin-right: auto; }
+      .vote-card { min-width: 0; }
+      .prod-grid { max-width: 700px; }
+      .prod-origin { max-width: 700px; }
+      .hero-wrap { max-width: 480px; }
+      #dot-nav { display: flex; }
+    }
+
+    /* 1024px+ : 일반 데스크톱 */
+    @media(min-width: 1024px) {
+      section       { padding-left: 10vw; padding-right: 10vw; }
+      #s0           { padding: 100px 8vw 80px; }
+      #s9           { padding: 100px 8vw 80px; }
+    }
+
+    /* 1280px+ : 와이드 — 콘텐츠 860px 고정 중앙 정렬 */
+    @media(min-width: 1280px) {
+      section {
+        padding-left:  calc((100vw - 860px) / 2);
+        padding-right: calc((100vw - 860px) / 2);
+      }
+      #s0 { padding: 110px calc((100vw - 760px) / 2) 90px; }
+      #s9 { padding: 110px calc((100vw - 760px) / 2) 90px; }
+
+      .detail-grid     { grid-template-columns: repeat(6, 1fr); }
+      .insight-cards   { grid-template-columns: repeat(3, 1fr); }
+      .roadmap-grid    { grid-template-columns: repeat(3, 1fr); }
+      .prod-grid       { grid-template-columns: 1fr 1fr; }
+      .direction-grid  { grid-template-columns: 1fr 1fr; }
+      .deform-row      { gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── LIGHTBOX ── -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="이미지 크게 보기">
+  <button id="lb-close" onclick="closeLightbox()" aria-label="닫기">✕</button>
+  <img id="lb-img" src="" alt="">
+  <p id="lb-cap"></p>
+</div>
+
+<!-- ── TOAST ── -->
+<div id="toast" class="toast"></div>
+
+<!-- ── LOADER ── -->
+<div id="loader">
+  <div class="loader-logo">겜우리한우리</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <p style="font-size:11px;color:var(--muted);letter-spacing:0.1em">OFFICIAL CHARACTER PROPOSAL</p>
+</div>
+
+<!-- ── PROGRESS ── -->
+<div id="progress-bar"></div>
+
+<!-- ── NAV ── -->
+<div id="nav">
+  <span class="brand">겜우리한우리</span>
+  <span id="nav-title">캐릭터 제안서</span>
+</div>
+
+<!-- ── DOT NAV ── -->
+<nav id="dot-nav" aria-label="섹션 이동">
+  <div class="dot active" data-idx="0" title="표지"></div>
+  <div class="dot" data-idx="1" title="문제 제기"></div>
+  <div class="dot" data-idx="2" title="고객층 분석"></div>
+  <div class="dot" data-idx="3" title="캐릭터 방향성"></div>
+  <div class="dot" data-idx="4" title="트렌드"></div>
+  <div class="dot" data-idx="5" title="레퍼런스"></div>
+  <div class="dot" data-idx="6" title="브랜드 케이스"></div>
+  <div class="dot" data-idx="7" title="캐릭터 제안"></div>
+  <div class="dot" data-idx="8" title="활용 방안"></div>
+  <div class="dot" data-idx="9" title="투표"></div>
+</nav>
+
+
+<!-- ═══ SECTION 0 — COVER ═══ -->
+<section id="s0" data-idx="0" data-title="표지">
+  <p class="reveal" style="font-size:clamp(0.65rem,1.8vw,0.8rem);letter-spacing:0.28em;color:var(--orange);text-transform:uppercase;margin-bottom:18px;text-align:center">
+    겜우리 · 한우리 · Official Character Proposal
+  </p>
+  <h1 class="reveal" style="text-align:center;transition-delay:0.12s;background:linear-gradient(135deg,#fff 20%,#c4b5fd 65%,var(--orange) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
+    공식 캐릭터<br>제안서
+  </h1>
+  <p class="reveal" style="text-align:center;transition-delay:0.24s;margin:16px auto 44px;max-width:360px">
+    브랜드 정체성을 완성하는<br>공식 마스코트 캐릭터 기획안
+  </p>
+  <div class="hero-wrap reveal scale-in" style="transition-delay:0.4s">
+    <img src="chars/char_all3.png" alt="제안 캐릭터 3종" class="lb-trigger" loading="eager">
+  </div>
+  <div class="img-hint reveal" style="transition-delay:0.55s">
+    🔍 이미지는 누르면 크게 볼 수 있습니다
+  </div>
+  <div class="scroll-indicator">
+    <span>스크롤하여 보기</span>
+    <div class="chevron"></div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 1 — PROBLEM ═══ -->
+<section id="s1" class="alt" data-idx="1" data-title="왜 캐릭터가 필요한가">
+  <div class="label-tag reveal">01 — 문제 제기</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    왜 지금<br><span class="highlight">브랜드 캐릭터</span>인가?
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+  <p class="reveal mb24" style="transition-delay:0.26s">
+    게임·피규어·굿즈 시장에서 캐릭터는 단순한 마스코트를 넘어<br>
+    브랜드 충성도와 팬덤을 만드는 핵심 자산이 되었습니다.
+  </p>
+
+  <div class="two-col stagger">
+    <div class="card">
+      <img src="problem_anime_cry.png" alt="트렌드 현황" class="lb-trigger">
+      <span class="pill">트렌드 현황</span>
+      <h3 class="mb8">캐릭터 IP가 곧 브랜드</h3>
+      <p>2024년, 캐릭터 IP는 게임·굿즈 시장의 핵심 성장 동력입니다. 팬들은 캐릭터에 감정을 투영하고 소비합니다.</p>
+    </div>
+    <div class="card">
+      <img src="problem_pepe_cry.png" alt="우리의 현실" class="lb-trigger">
+      <span class="pill purple">우리의 현실</span>
+      <h3 class="mb8">겜우리한우리엔<br>아직 공식 캐릭터가 없다</h3>
+      <p>오랜 역사와 신뢰를 가졌지만, 브랜드를 상징하는 캐릭터가 없어 팬덤 형성과 굿즈 사업에 한계가 있습니다.</p>
+    </div>
+  </div>
+
+  <!-- 통계 수치 카드 -->
+  <div class="stat-row stagger mt32">
+    <div class="stat-box">
+      <div class="stat-num">3×</div>
+      <div class="stat-desc">캐릭터 보유 브랜드<br>SNS 팔로워 증가율</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">68%</div>
+      <div class="stat-desc">마스코트 굿즈 구매<br>재방문율</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num">2.4×</div>
+      <div class="stat-desc">캐릭터 콘텐츠<br>평균 인게이지먼트</div>
+    </div>
+  </div>
+
+  <!-- 비교 그래프 -->
+  <div class="chart-box reveal" style="transition-delay:0.5s">
+    <div class="chart-title">▌ 캐릭터 없는 브랜드 vs 캐릭터 보유 브랜드 — 핵심 지표 비교</div>
+    <canvas id="stats-chart" height="160"></canvas>
+  </div>
+
+  <!-- p2: 덕질 / 서브컬처 -->
+  <div class="chart-box reveal" style="transition-delay:0.62s;margin-top:20px">
+    <div style="font-size:11px;color:var(--muted);letter-spacing:0.1em;margin-bottom:14px;text-align:center">▌ 지금의 소비 문화</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:rgba(236,72,153,0.07);border:1px solid rgba(236,72,153,0.22);border-radius:10px;padding:14px">
+        <div style="font-size:1.1rem;font-weight:900;color:#f9a8d4;margin-bottom:6px">캐릭터 덕질?</div>
+        <p style="font-size:11px;line-height:1.7">덕질은 어떤 대상(인물·작품·분야)을 좋아해 그와 관련된 것들을 모으거나 파고드는 행위를 뜻하는 말로, 원래는 '수집가'에 대응되는 신조어로 쓰였습니다. <span style="font-size:9px;opacity:0.5">출처: 나무위키</span></p>
+      </div>
+      <div style="background:rgba(249,115,22,0.07);border:1px solid rgba(249,115,22,0.22);border-radius:10px;padding:14px">
+        <div style="font-size:1rem;font-weight:900;color:#fdba74;margin-bottom:6px">오타쿠 문화? <span style="color:#f97316">NO!</span></div>
+        <p style="font-size:11px;line-height:1.7"><strong style="color:#f1f5f9">캐릭터를 소비하는 시대 = 이제는 트렌드!</strong><br>서브컬처는 이제 더 이상 음지가 아닙니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 2 — 고객층 분석 ═══ -->
+<section id="s2" data-idx="2" data-title="고객층 분석">
+  <div class="label-tag reveal">02 — 고객층 분석</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    최근 1년간<br><span class="grad-text">네이버 스토어 고객층</span>
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+  <p class="reveal mb16" style="transition-delay:0.26s">
+    2025.03 ~ 2026.02 성별·연령별 고객 현황 분석 결과입니다.
+  </p>
+
+  <!-- 피라미드 차트 -->
+  <div class="chart-box reveal" style="transition-delay:0.32s">
+    <div class="chart-title">▌ 성별·연령별 고객 비율 (남성 ← | → 여성)</div>
+    <canvas id="pyramid-chart" height="220"></canvas>
+  </div>
+
+  <!-- 분석 요약 -->
+  <div class="insight-cards stagger mt24">
+    <div class="insight-card blue">
+      <div class="insight-num" style="color:#60a5fa">40대 초반</div>
+      <div style="font-size:12px;font-weight:700;color:#93c5fd;margin-bottom:4px">남성 고객 <span style="color:#f97316">1위</span></div>
+      <div class="insight-desc">핵심 구매층<br>게임·피규어 주력 소비</div>
+    </div>
+    <div class="insight-card pink">
+      <div class="insight-num" style="color:#f472b6">20대 남성</div>
+      <div style="font-size:12px;font-weight:700;color:#f9a8d4;margin-bottom:4px">상대적 <span style="color:#f97316">빈약</span></div>
+      <div class="insight-desc">MZ세대 유입 확대<br>캐릭터로 공략 가능</div>
+    </div>
+    <div class="insight-card purple">
+      <div class="insight-num" style="color:#c4b5fd">여성 고객</div>
+      <div style="font-size:12px;font-weight:700;color:#ddd6fe;margin-bottom:4px">전 연령 <span style="color:#f97316">골고루</span></div>
+      <div class="insight-desc">서브컬처 친화 캐릭터로<br>여성층 확대 가능</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 3 — 캐릭터 방향성 ═══ -->
+<section id="s3" class="alt2" data-idx="3" data-title="캐릭터 방향성">
+  <div class="label-tag reveal">03 — 캐릭터 방향성</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    그래서 저는<br><span class="highlight">캐릭터 방향성</span>을<br>이렇게 잡았습니다
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+
+  <!-- 이제는 필요한 때 (p15) -->
+  <p class="reveal mb8" style="transition-delay:0.26s;font-size:0.95rem">
+    이제는 <strong style="color:var(--orange)">필요한 때</strong>입니다.
+  </p>
+  <div class="benefit-list stagger">
+    <div class="benefit-item sky">브랜드 이미지 변화 → 친근함</div>
+    <div class="benefit-item gold">마케팅 효과 → 매출 증진</div>
+    <div class="benefit-item green">주 고객층에게 새로운 이미지 각인</div>
+    <div class="benefit-item rose">MZ고객 유치</div>
+  </div>
+
+  <!-- 방향성 상세 (p18) -->
+  <div class="direction-grid reveal" style="transition-delay:0.55s;margin-top:28px">
+    <div class="direction-card moe">
+      <h4 style="color:#f9a8d4">모에<span style="font-size:0.75rem;margin-left:6px;opacity:0.7">萌え · moe</span></h4>
+      <p>특정 대상에 대한 열광 혹은 화자가 열광하는 대상의 기호화된 매력을 의미하는 일본어 신조어. 주로 일본 만화, 애니메이션, 라노벨, 서브컬처 게임 등 2D 매체 캐릭터의 매력을 뜻하며, 특정한 대상을 향해 느끼는 깊은 감정으로도 정의할 수 있다.</p>
+    </div>
+    <div class="direction-card symbol">
+      <h4 style="color:#7dd3fc">상징</h4>
+      <p><strong style="color:#f1f5f9">겜우리한우리의 근본, 상징은 게임·피규어·서브컬처</strong><br><br>20년 이상 한 자리에서 게임 유통 및 판매로 명성을 얻은 한우리는 게임판매 및 유통에서 한 획을 그은 유명한 업체입니다.</p>
+    </div>
+  </div>
+
+  <!-- 타겟 -->
+  <div class="reveal" style="transition-delay:0.68s;text-align:center;margin-top:24px">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;letter-spacing:0.1em">▌ 핵심 타겟</div>
+    <div class="target-badges">
+      <div class="target-badge purple">충성 고객층</div>
+      <div class="target-badge pink">모에 · 상징</div>
+      <div class="target-badge teal">MZ세대</div>
+    </div>
+  </div>
+
+  <!-- 제작 방안 (p28) -->
+  <div class="reveal" style="transition-delay:0.82s;margin-top:36px">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:14px;letter-spacing:0.1em;text-align:center">▌ 캐릭터 제작 방안</div>
+    <div class="prod-origin">
+      <div class="prod-origin-label">🐾 원본 캐릭터</div>
+      <div class="prod-origin-desc">원본 디자인, 컨셉은 직접 작업을 진행합니다.<br>이후 목적에 따라 아래 두 방식으로 분기합니다.</div>
+    </div>
+    <div class="prod-grid">
+      <div class="prod-path-card blue-card">
+        <div class="prod-method">✏️ 직접 그림</div>
+        <div class="prod-pros-label">장점</div>
+        <div class="prod-bullet">● 작업자의 오리지널리티 형성<br>● AI 작업물에 거부감이 있는<br>&nbsp;&nbsp;고객들 포용 가능</div>
+        <div class="prod-cons-label">단점</div>
+        <div class="prod-bullet">● 작업시간 오래 걸림</div>
+      </div>
+      <div class="prod-path-card purple-card">
+        <div class="prod-method">🤖 AI 활용 → 리터칭·수정</div>
+        <div class="prod-pros-label">장점</div>
+        <div class="prod-bullet">● 작업시간 단축</div>
+        <div class="prod-cons-label">단점</div>
+        <div class="prod-bullet">● AI 사용 비용 발생<br>● AI 작업물에 거부감이 있는<br>&nbsp;&nbsp;고객 발생 가능성 있음<br>● 작업자의 오리지널리티 감소</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 4 — TREND ═══ -->
+<section id="s4" data-idx="4" data-title="캐릭터 트렌드">
+  <div class="label-tag reveal">04 — 트렌드 분석</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    지금은<br><span class="grad-text">캐릭터 전성시대</span>
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+  <p class="reveal mb24" style="transition-delay:0.26s">
+    애니메이션, 게임, VTuber까지 — 강렬한 비주얼 캐릭터가 소비자를 움직입니다.
+  </p>
+  <div class="trend-grid stagger">
+    <div class="trend-card">
+      <img src="trend/anime_chainsaw.png" alt="체인소맨 — 강렬한 캐릭터 IP로 굿즈 완판" class="lb-trigger" loading="lazy">
+      <div class="cap">체인소맨 IP · 굿즈 완판</div>
+    </div>
+    <div class="trend-card">
+      <img src="trend/anime_jujutsu.png" alt="주술회전 — 글로벌 팬덤 형성 성공" class="lb-trigger" loading="lazy">
+      <div class="cap">주술회전 · 글로벌 팬덤</div>
+    </div>
+    <div class="trend-card">
+      <img src="trend/anime_kimetsu.png" alt="귀멸의 칼날 — 역대급 굿즈 매출" class="lb-trigger" loading="lazy">
+      <div class="cap">귀멸의 칼날 · 역대급 매출</div>
+    </div>
+    <div class="trend-card">
+      <img src="trend/hololive.png" alt="홀로라이브 VTuber — 버튜버 캐릭터 시대" class="lb-trigger" loading="lazy">
+      <div class="cap">홀로라이브 VTuber · 버튜버 시대</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 5 — REFERENCE ═══ -->
+<section id="s5" class="alt" data-idx="5" data-title="컨셉 레퍼런스">
+  <div class="label-tag reveal">05 — 컨셉 레퍼런스</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    벤치마킹<br><span class="highlight">캐릭터 레퍼런스</span>
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+  <p class="reveal mb24" style="transition-delay:0.26s">
+    게임·서브컬처 팬층에게 어필하는 캐릭터 디자인 방향성을 참고했습니다.
+  </p>
+  <div class="ref-grid stagger">
+    <div class="ref-card" style="grid-column:span 2">
+      <img src="reference/trickcal_chars.png" alt="트릭컬 리바이브 캐릭터 라인업 — 강렬한 컬러와 개성으로 팬덤 형성" class="lb-trigger" loading="lazy">
+      <div class="ref-cap">🎮 트릭컬 리바이브 — 개성 강한 다채로운 캐릭터 라인업. 강렬한 컬러와 뚜렷한 개성으로 팬덤 형성에 성공.</div>
+    </div>
+    <div class="ref-card">
+      <img src="reference/trickcal_logo.png" alt="트릭컬 리바이브 로고" class="on-white lb-trigger" loading="lazy">
+      <div class="ref-cap">트릭컬 리바이브</div>
+    </div>
+    <div class="ref-card">
+      <img src="reference/epid_logo.png" alt="에피드 게임즈 로고" class="on-white lb-trigger" loading="lazy">
+      <div class="ref-cap">에피드 게임즈</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 6 — BRAND CASES ═══ -->
+<section id="s6" data-idx="6" data-title="브랜드 케이스">
+  <div class="label-tag reveal">06 — 성공 사례</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    동일 업계<br><span class="grad-text">브랜드 케이스</span>
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+  <p class="reveal mb16" style="transition-delay:0.26s">
+    게임·피규어·굿즈 업계에서 캐릭터를 앞세워 성공한 브랜드 사례입니다.
+  </p>
+  <div class="tab-strip reveal" style="transition-delay:0.32s">
+    <button class="tab-btn active" onclick="switchTab(this,'bc','amiami')">아미아미</button>
+    <button class="tab-btn" onclick="switchTab(this,'bc','gamemol')">게임몰</button>
+    <button class="tab-btn" onclick="switchTab(this,'bc','herotime')">히어로타임</button>
+    <button class="tab-btn" onclick="switchTab(this,'bc','gundam')">건담베이스</button>
+  </div>
+
+  <div id="bc-amiami" class="tab-panel active">
+    <h3 class="case-head">아미아미(AmiAmi) — 일본 최대 피규어·굿즈 쇼핑몰</h3>
+    <p class="case-desc">VTuber 마스코트 캐릭터를 통해 SNS 팔로워 300만 돌파. 자체 캐릭터 굿즈 라인업 운영.</p>
+    <div class="case-grid stagger">
+      <img src="brand_cases/amiami_sns.png" alt="아미아미 SNS 활용 사례 — 마스코트 중심 SNS 운영" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/amiami_vtuber.png" alt="아미아미 VTuber 마스코트 캐릭터" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/amiami_goods_badge.png" alt="아미아미 배지 굿즈 라인업" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/amiami_goods_keyring.png" alt="아미아미 키링 굿즈" class="lb-trigger" loading="lazy">
+    </div>
+  </div>
+
+  <div id="bc-gamemol" class="tab-panel">
+    <h3 class="case-head">게임몰 — 국내 게임 유통 브랜드</h3>
+    <p class="case-desc">마스코트 캐릭터를 유니폼·매장 VMD에 적극 활용. 강한 브랜드 인지도 구축.</p>
+    <div class="case-grid stagger">
+      <img src="brand_cases/gamemol_logo.png" alt="게임몰 로고" class="on-white lb-trigger" loading="lazy">
+      <img src="brand_cases/gamemol_mascot_wear.png" alt="게임몰 마스코트 의상 활용" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/gamemol_store.png" alt="게임몰 매장 VMD" class="lb-trigger" loading="lazy">
+    </div>
+  </div>
+
+  <div id="bc-herotime" class="tab-panel">
+    <h3 class="case-head">히어로타임 — 국내 게임·굿즈 전문점</h3>
+    <p class="case-desc">히타미 캐릭터로 팝업·이벤트·쿠폰까지 캐릭터 중심 마케팅 전개.</p>
+    <div class="case-grid stagger">
+      <img src="brand_cases/herotime_hitami.png" alt="히타미 캐릭터 — 히어로타임 공식 마스코트" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/herotime_event.png" alt="히어로타임 이벤트" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/herotime_popup.png" alt="히어로타임 팝업 스토어" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/herotime_coupon.png" alt="히어로타임 쿠폰 디자인" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/herotime_logo.png" alt="히어로타임 로고" class="on-white lb-trigger" loading="lazy">
+    </div>
+  </div>
+
+  <div id="bc-gundam" class="tab-panel">
+    <h3 class="case-head">냥베걸 — 건담베이스 고양점 마스코트</h3>
+    <p class="case-desc">서브컬처 팬들의 감성을 저격한 고양이+건담 컨셉. 포스터·굿즈·매장까지 확장.</p>
+    <div class="case-grid stagger">
+      <img src="brand_cases/gundam_nyang_illus.png" alt="건담냥 일러스트 — 고양이+건담 컨셉" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/gundam_nyang_poster.png" alt="건담냥 포스터 디자인" class="lb-trigger" loading="lazy">
+      <img src="brand_cases/gundam_nyang_store.png" alt="건담냥 스토어 적용" class="lb-trigger" loading="lazy">
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 7 — CHARACTER PROPOSALS ═══ -->
+<section id="s7" class="alt2" data-idx="7" data-title="캐릭터 제안">
+  <div class="label-tag reveal">07 — 캐릭터 제안</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    3가지<br><span class="highlight">캐릭터 안</span>
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+  <p class="reveal mb8" style="transition-delay:0.26s">
+    겜우리한우리의 정체성을 담은 세 가지 캐릭터 방향성을 제안합니다.
+  </p>
+  <div class="ai-notice reveal" style="transition-delay:0.3s">
+    ✏️ 기본 캐릭터 원본 디자인은 <strong>직접 제작</strong>하였으며, 일부 변형·배경·합성 이미지는 <strong>AI 도구를 활용 및 수정</strong>하였습니다.
+  </div>
+
+  <div class="char-tab-strip reveal" style="transition-delay:0.35s">
+    <button class="char-tab-btn active" onclick="switchCharTab(this,'A')">캐릭터 A</button>
+    <button class="char-tab-btn" onclick="switchCharTab(this,'B')">캐릭터 B</button>
+    <button class="char-tab-btn" onclick="switchCharTab(this,'C')">캐릭터 C</button>
+  </div>
+
+  <!-- CHARACTER A -->
+  <div id="cp-A" class="char-panel active">
+    <div class="char-layout">
+      <div>
+        <div class="char-img-box">
+          <div class="img-wrap">
+            <img src="chars/char_A.png" alt="캐릭터 A — 게이머 한우 캐릭터" class="lb-trigger" loading="lazy">
+            <span class="own-badge">✏️ 직접제작</span>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <img src="chars_detail_A/A_detail_cow_real.png" alt="소 실제 참고 이미지" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_A/A_detail_gamewoori_logo.png" alt="겜우리 로고 모티프" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_A/A_detail_hanwoori_stamp.png" alt="한우리 스탬프 모티프" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_A/A_detail_playstation_logo.png" alt="플레이스테이션 로고 참고" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_A/A_detail_ps_dpad.png" alt="PS 디패드 모티프" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_A/A_detail_switch_logo.png" alt="닌텐도 스위치 로고 참고" class="lb-trigger" loading="lazy">
+        </div>
+      </div>
+      <div class="char-info">
+        <div class="char-badge">🐄 캐릭터 A — 한우 소 테마</div>
+        <h3>게이머 한우 캐릭터</h3>
+        <p>한우리(韓牛里)의 '한우'에서 영감받은 소 캐릭터. 게임 컨트롤러와 닌텐도·플스 심볼을 자연스럽게 녹여낸 게이머 정체성.</p>
+        <div class="keywords">
+          <span class="kw">한우 모티프</span>
+          <span class="kw">게이머 감성</span>
+          <span class="kw">닌텐도·PS</span>
+          <span class="kw">브랜드 직결</span>
+          <span class="kw">굿즈 활용↑</span>
+        </div>
+        <div class="char-note orange">
+          ✦ 겜우리한우리의 이름 자체에서 파생된 캐릭터로, 브랜드 아이덴티티와 직결되어 가장 강한 정체성 표현 가능
+        </div>
+      </div>
+    </div>
+    <div class="img-wrap" style="border-radius:14px;overflow:hidden;margin-top:20px">
+      <img src="chars/char_A_detail.png" alt="캐릭터 A 디테일 시트" class="lb-trigger" loading="lazy" style="width:100%">
+      <span class="own-badge">✏️ 직접제작</span>
+    </div>
+  </div>
+
+  <!-- CHARACTER B -->
+  <div id="cp-B" class="char-panel">
+    <div class="char-layout">
+      <div>
+        <div class="char-img-box" style="border-color:rgba(236,72,153,0.2);background:rgba(236,72,153,0.04)">
+          <div class="img-wrap">
+            <img src="chars/char_B.png" alt="캐릭터 B — 고양이 메이드 캐릭터" class="lb-trigger" loading="lazy">
+            <span class="own-badge">✏️ 직접제작</span>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <img src="chars_detail_B/B_detail_cat_real.png" alt="고양이 실제 참고" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_B/B_detail_maid_outfit.png" alt="메이드 복장 레퍼런스" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_B/B_detail_bungeo_bread.png" alt="붕어빵 모티프" class="lb-trigger" loading="lazy">
+          <img src="chars_detail_B/B_detail_ps_controller.png" alt="PS 컨트롤러 참고" class="lb-trigger" loading="lazy">
+        </div>
+      </div>
+      <div class="char-info">
+        <div class="char-badge" style="background:rgba(236,72,153,0.12);border-color:rgba(236,72,153,0.28);color:#f9a8d4">🐱 캐릭터 B — 고양이 메이드 테마</div>
+        <h3>게이머 메이드 냥코</h3>
+        <p>서브컬처 팬들에게 친숙한 고양이 캐릭터. 메이드 복장과 PS 컨트롤러를 조합해 게임 샵 캐릭터로서 높은 소구력.</p>
+        <div class="keywords">
+          <span class="kw pink">고양이 모티프</span>
+          <span class="kw pink">메이드 컨셉</span>
+          <span class="kw pink">서브컬처 친화</span>
+          <span class="kw pink">붕어빵 감성</span>
+          <span class="kw pink">2차 창작 유리</span>
+        </div>
+        <div class="char-note pink">
+          ✦ 오타쿠·서브컬처 팬층에 강한 어필. SNS 2차 창작 확산에 유리한 디자인 방향성
+        </div>
+      </div>
+    </div>
+    <div class="img-wrap" style="border-radius:14px;overflow:hidden;margin-top:20px">
+      <img src="chars/char_B_detail.png" alt="캐릭터 B 디테일 시트" class="lb-trigger" loading="lazy" style="width:100%">
+      <span class="own-badge">✏️ 직접제작</span>
+    </div>
+  </div>
+
+  <!-- CHARACTER C -->
+  <div id="cp-C" class="char-panel">
+    <div class="char-layout">
+      <div>
+        <div class="char-img-box" style="border-color:rgba(20,184,166,0.2);background:rgba(20,184,166,0.04)">
+          <div class="img-wrap">
+            <img src="chars/char_C.png" alt="캐릭터 C — 올라운더 게이머 냥이" class="lb-trigger" loading="lazy">
+            <span class="own-badge">✏️ 직접제작</span>
+          </div>
+        </div>
+        <div class="detail-grid">
+          <div class="img-wrap" style="border-radius:8px;overflow:hidden">
+            <img src="chars/char_C_chibi.png" alt="캐릭터 C 치비 버전 (AI 활용 및 수정)" class="lb-trigger" loading="lazy" style="border-radius:8px;border:1px solid var(--border);aspect-ratio:1;object-fit:contain;background:rgba(255,255,255,0.03);padding:8px">
+            <span class="ai-badge">🤖 AI</span>
+          </div>
+          <div class="img-wrap" style="border-radius:8px;overflow:hidden">
+            <img src="chars/char_C_deform.png" alt="캐릭터 C 데포르메 버전 (AI 활용 및 수정)" class="lb-trigger" loading="lazy" style="border-radius:8px;border:1px solid var(--border);aspect-ratio:1;object-fit:contain;background:rgba(255,255,255,0.03);padding:8px">
+            <span class="ai-badge">🤖 AI</span>
+          </div>
+          <img src="chars_detail_C/C_detail_cat_real.png" alt="고양이 실제 참고" class="lb-trigger" loading="lazy" style="border-radius:8px;border:1px solid var(--border);aspect-ratio:1;object-fit:contain;background:rgba(255,255,255,0.03);padding:8px">
+          <img src="chars_detail_C/C_detail_switch_joycon.png" alt="스위치 조이콘 참고" class="lb-trigger" loading="lazy" style="border-radius:8px;border:1px solid var(--border);aspect-ratio:1;object-fit:contain;background:rgba(255,255,255,0.03);padding:8px">
+          <img src="chars_detail_C/C_detail_switch_logo.png" alt="스위치 로고 참고" class="lb-trigger" loading="lazy" style="border-radius:8px;border:1px solid var(--border);aspect-ratio:1;object-fit:contain;background:rgba(255,255,255,0.03);padding:8px">
+          <img src="chars_detail_C/C_detail_ps_symbols.png" alt="PS 심볼 참고" class="lb-trigger" loading="lazy" style="border-radius:8px;border:1px solid var(--border);aspect-ratio:1;object-fit:contain;background:rgba(255,255,255,0.03);padding:8px">
+        </div>
+      </div>
+      <div class="char-info">
+        <div class="char-badge" style="background:rgba(20,184,166,0.12);border-color:rgba(20,184,166,0.28);color:#5eead4">🐱 캐릭터 C — 고양이 게이머 테마</div>
+        <h3>올라운더 게이머 냥이</h3>
+        <p>닌텐도 스위치 조이콘을 귀처럼 달고, PS 심볼 눈을 가진 만능 게이머 고양이. 치비/데포르메 버전으로 굿즈 활용성 극대화.</p>
+        <div class="keywords">
+          <span class="kw teal">스위치·PS 통합</span>
+          <span class="kw teal">치비 버전 기본</span>
+          <span class="kw teal">데포르메 활용</span>
+          <span class="kw teal">굿즈 최적화</span>
+          <span class="kw teal">올플랫폼 게이머</span>
+        </div>
+        <div class="char-note teal">
+          ✦ 치비/데포르메 버전 기본 제공으로 아크릴 스탠드·키링 등 굿즈 제작 시 즉시 적용 가능
+        </div>
+      </div>
+    </div>
+    <div class="img-wrap" style="border-radius:14px;overflow:hidden;margin-top:20px">
+      <img src="chars/char_C_detail.png" alt="캐릭터 C 디테일 시트" class="lb-trigger" loading="lazy" style="width:100%">
+      <span class="own-badge">✏️ 직접제작</span>
+    </div>
+  </div>
+
+  <!-- 데포르메 예시 (p30) -->
+  <div class="deform-wrap reveal" style="transition-delay:0.4s">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:16px;letter-spacing:0.1em;text-align:center">▌ 캐릭터 데포르메 예시</div>
+    <div class="deform-row">
+      <div>
+        <div class="img-wrap" style="border-radius:12px;overflow:hidden">
+          <img src="chars/char_C.png" alt="원본 캐릭터" class="lb-trigger" loading="lazy">
+          <span class="own-badge">✏️ 직접제작</span>
+        </div>
+        <div class="deform-label">원본 캐릭터</div>
+      </div>
+      <div class="deform-arrow">→</div>
+      <div>
+        <div class="img-wrap" style="border-radius:12px;overflow:hidden">
+          <img src="chars/char_C_deform.png" alt="Chat GPT를 활용한 데포르메" class="lb-trigger" loading="lazy">
+          <span class="ai-badge">🤖 AI 활용 및 수정</span>
+        </div>
+        <div class="deform-label">Chat GPT를 활용한 데포르메</div>
+      </div>
+    </div>
+    <div class="deform-note">
+      사용 용도와 컨셉에 따라 디자인 컨셉은 유지하되<br>
+      캐릭터의 형태를 <strong style="color:var(--teal)">데포르메</strong>하여 사용합니다.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 8 — USAGE ═══ -->
+<section id="s8" data-idx="8" data-title="활용 방안">
+  <div class="label-tag reveal">08 — 활용 방안</div>
+  <h2 class="reveal" style="transition-delay:0.1s">
+    어디에든<br><span class="grad-text">활용할 수 있다</span>
+  </h2>
+  <div class="divider reveal" style="transition-delay:0.2s"></div>
+  <p class="reveal mb8" style="transition-delay:0.26s">
+    온라인 · 오프라인 · 굿즈 · 웹툰까지 360° 브랜드 경험을 만듭니다.
+  </p>
+  <div class="ai-notice reveal" style="transition-delay:0.28s">
+    🤖 활용 예시 이미지는 <strong>AI 목업 툴을 활용하여 제작</strong>한 시안입니다. 실제 제작물과 다를 수 있습니다.
+  </div>
+
+  <!-- 활용 로드맵 (p29) -->
+  <div class="reveal" style="transition-delay:0.3s;margin-bottom:28px">
+    <div style="font-size:11px;color:var(--muted);margin-bottom:12px;letter-spacing:0.1em">▌ 캐릭터 활용 로드맵 — OSMU (One-Source Multi-Use)</div>
+    <div class="roadmap-grid">
+      <div class="roadmap-col store">
+        <div class="roadmap-col-head">🏪 매장</div>
+        <div class="roadmap-items">
+          <div class="roadmap-item">입간판</div>
+          <div class="roadmap-item">포스터</div>
+        </div>
+      </div>
+      <div class="roadmap-col online">
+        <div class="roadmap-col-head">🖥 온라인 (겜우리)</div>
+        <div class="roadmap-items">
+          <div class="roadmap-item">블로그/사이트 배너 및 디자인</div>
+          <div class="roadmap-item">SNS 마케팅</div>
+          <div class="roadmap-item">택배 감사·리뷰·평점 유도 카드</div>
+        </div>
+      </div>
+      <div class="roadmap-col osmu">
+        <div class="roadmap-col-head">✨ OSMU</div>
+        <div class="roadmap-items">
+          <div class="roadmap-item">굿즈</div>
+          <div class="roadmap-item">만화</div>
+          <div class="roadmap-item">피규어</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-strip reveal" style="transition-delay:0.38s">
+    <button class="usage-tab-btn active" onclick="switchUsageTab(this,'online')">🖥 온라인</button>
+    <button class="usage-tab-btn" onclick="switchUsageTab(this,'offline')">🏪 오프라인</button>
+    <button class="usage-tab-btn" onclick="switchUsageTab(this,'goods')">🎁 굿즈</button>
+    <button class="usage-tab-btn" onclick="switchUsageTab(this,'comic')">📖 웹툰</button>
+  </div>
+
+  <div id="ut-online" class="usage-panel active">
+    <h3 class="mb8">온라인 채널 활용</h3>
+    <p class="mb16" style="font-size:12px">메인 배너, SNS, 블로그, 이벤트 페이지 등 디지털 채널 전면에 캐릭터 배치</p>
+    <div class="usage-grid stagger">
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_main_wide.png" alt="메인 배너 와이드 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_main_narrow.png" alt="메인 배너 세로형 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/banner_sale.png" alt="세일 배너 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/blog_char_pray.png" alt="블로그 기도 캐릭터 포즈" class="lb-trigger" loading="lazy"><span class="own-badge">✏️ 직접제작</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_online/blog_char_sitting.png" alt="블로그 앉은 캐릭터 포즈" class="lb-trigger" loading="lazy"><span class="own-badge">✏️ 직접제작</span></div>
+    </div>
+  </div>
+
+  <div id="ut-offline" class="usage-panel">
+    <h3 class="mb8">오프라인 매장 활용</h3>
+    <p class="mb16" style="font-size:12px">포스터, 스탠디, POP 등 매장 VMD 전체에 캐릭터로 통일된 분위기 연출</p>
+    <div class="usage-grid stagger">
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/poster_store_photo.png" alt="스토어 포스터 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/standee_mockup.png" alt="스탠디 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_offline/standee_store_photo.png" alt="스탠디 실제 설치 시뮬레이션 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+    </div>
+  </div>
+
+  <div id="ut-goods" class="usage-panel">
+    <h3 class="mb8">굿즈 제품 라인업</h3>
+    <p class="mb16" style="font-size:12px">피규어, 아크릴 스탠드, 키링, 쇼핑백, 배송 카드까지 — 자체 굿즈 라인업 구축</p>
+    <div class="usage-grid stagger">
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_figure1.png" alt="피규어 목업 1 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_figure2.png" alt="피규어 목업 2 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_acrylic_stand1.png" alt="아크릴 스탠드 1 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_acrylic_stand2.png" alt="아크릴 스탠드 2 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_keyring.png" alt="키링 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_shopping_bag.png" alt="쇼핑백 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_goods/goods_delivery_card.png" alt="배송 카드 목업 (AI 목업)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+    </div>
+  </div>
+
+  <div id="ut-comic" class="usage-panel">
+    <h3 class="mb8">웹툰 / 4컷 만화</h3>
+    <p class="mb16" style="font-size:12px">SNS에 연재하는 4컷 만화로 팬덤 형성 및 바이럴 마케팅 효과</p>
+    <div class="usage-grid stagger" style="grid-template-columns:repeat(2,1fr)">
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_comic/comic_panel1.png" alt="4컷 만화 1화 (AI 활용 및 수정)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_comic/comic_panel2.png" alt="4컷 만화 2화 (AI 활용 및 수정)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_comic/comic_panel3.png" alt="4컷 만화 3화 (AI 활용 및 수정)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+      <div class="img-wrap" style="border-radius:10px;overflow:hidden"><img src="usage_comic/comic_panel4.png" alt="4컷 만화 4화 (AI 활용 및 수정)" class="lb-trigger" loading="lazy"><span class="ai-badge">🤖 AI 활용 및 수정</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ SECTION 9 — CLOSING + VOTE ═══ -->
+<section id="s9" data-idx="9" data-title="투표">
+  <div class="label-tag reveal center">09 — 마무리</div>
+  <h2 class="reveal center" style="transition-delay:0.1s">
+    지금이 바로<br><span class="grad-text">캐릭터를 만들<br>최적의 타이밍</span>
+  </h2>
+  <div class="img-wrap reveal scale-in" style="max-width:340px;margin:24px auto;transition-delay:0.3s;border-radius:12px;overflow:hidden">
+    <img src="chars/char_all3.png" alt="캐릭터 3종" class="lb-trigger" loading="lazy" style="filter:drop-shadow(0 0 50px rgba(139,92,246,0.5));animation:float 4.5s ease-in-out infinite">
+    <span class="own-badge">✏️ 직접제작</span>
+  </div>
+  <p class="reveal" style="transition-delay:0.5s;max-width:440px;text-align:center;margin:0 auto">
+    겜우리한우리만의 공식 캐릭터는 단순한 마스코트가 아닙니다.<br>
+    팬덤과 연결하는 <span class="highlight">브랜드의 얼굴</span>이자,<br>
+    굿즈·SNS·매장을 아우르는 <span class="highlight">통합 아이덴티티</span>입니다.
+  </p>
+
+  <!-- ── VOTING ── -->
+  <div class="vote-wrap reveal" style="transition-delay:0.65s">
+    <div class="vote-title">어떤 캐릭터 안이 가장 마음에 드시나요?</div>
+    <div class="vote-subtitle">버튼을 누를 때마다 투표가 누적됩니다</div>
+    <div class="vote-multi-note">✔ 중복 투표 가능 — 마음에 드는 안에 여러 번 투표하세요</div>
+
+    <div class="vote-cards">
+      <!-- CARD A -->
+      <div class="vote-card" id="vcard-A">
+        <div class="vote-count-badge" id="vcount-A">0</div>
+        <img src="chars/char_A.png" alt="안 A" loading="lazy">
+        <div class="vote-card-label" style="color:var(--orange)">안 A</div>
+        <div class="vote-card-desc">게이머 한우<br>브랜드 직결형</div>
+        <button id="vbtn-A" class="vote-btn-cast orange" onclick="castVote('A')">👍 투표</button>
+      </div>
+      <!-- CARD B -->
+      <div class="vote-card" id="vcard-B">
+        <div class="vote-count-badge" id="vcount-B">0</div>
+        <img src="chars/char_B.png" alt="안 B" loading="lazy">
+        <div class="vote-card-label" style="color:var(--pink)">안 B</div>
+        <div class="vote-card-desc">고양이 메이드<br>서브컬처형</div>
+        <button id="vbtn-B" class="vote-btn-cast pink" onclick="castVote('B')">👍 투표</button>
+      </div>
+      <!-- CARD C -->
+      <div class="vote-card" id="vcard-C">
+        <div class="vote-count-badge" id="vcount-C">0</div>
+        <img src="chars/char_C.png" alt="안 C" loading="lazy">
+        <div class="vote-card-label" style="color:var(--teal)">안 C</div>
+        <div class="vote-card-desc">올라운더 냥이<br>굿즈 최적화형</div>
+        <button id="vbtn-C" class="vote-btn-cast teal" onclick="castVote('C')">👍 투표</button>
+      </div>
+    </div>
+
+    <div class="vote-actions">
+      <button class="btn-result" onclick="toggleResults()">📊 결과 보기</button>
+      <button class="btn-share" onclick="shareVote()">🔗 결과 공유</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="vote-results" class="vote-results hidden">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:14px;font-weight:600">── 누적 투표 결과 ──</div>
+      <div class="vote-bar-row">
+        <div class="vote-bar-label" style="color:var(--orange)">안 A</div>
+        <div class="vote-bar-track"><div class="vote-bar-fill A" id="bar-A" style="width:0%"></div></div>
+        <div class="vote-bar-count" id="cnt-A">0표</div>
+      </div>
+      <div class="vote-bar-row">
+        <div class="vote-bar-label" style="color:var(--pink)">안 B</div>
+        <div class="vote-bar-track"><div class="vote-bar-fill B" id="bar-B" style="width:0%"></div></div>
+        <div class="vote-bar-count" id="cnt-B">0표</div>
+      </div>
+      <div class="vote-bar-row">
+        <div class="vote-bar-label" style="color:var(--teal)">안 C</div>
+        <div class="vote-bar-track"><div class="vote-bar-fill C" id="bar-C" style="width:0%"></div></div>
+        <div class="vote-bar-count" id="cnt-C">0표</div>
+      </div>
+      <div class="vote-result-note" id="result-note"></div>
+    </div>
+  </div>
+
+  <div class="reveal center" style="transition-delay:0.8s;margin-top:40px">
+    <p style="color:var(--muted);font-size:12px">겜우리한우리 공식 캐릭터 제안서</p>
+    <p style="color:var(--muted);font-size:11px;margin-top:6px;opacity:0.5">© 2025 겜우리한우리</p>
+  </div>
+</section>
+
+
+<script>
+/* ════════════════════════════════════════
+   LOADER
+════════════════════════════════════════ */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+    document.querySelectorAll('#s0 .reveal').forEach(el => el.classList.add('visible'));
+  }, 1600);
+});
+
+/* ════════════════════════════════════════
+   PROGRESS BAR
+════════════════════════════════════════ */
+const progressBar = document.getElementById('progress-bar');
+function updateProgress() {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progressBar.style.width = pct + '%';
+}
+
+/* ════════════════════════════════════════
+   DOT NAV
+════════════════════════════════════════ */
+const sections = Array.from(document.querySelectorAll('section[data-idx]'));
+const dots     = Array.from(document.querySelectorAll('.dot'));
+const navTitle = document.getElementById('nav-title');
+
+function getActiveIdx() {
+  let idx = 0;
+  sections.forEach((s, i) => {
+    if (s.getBoundingClientRect().top <= window.innerHeight * 0.45) idx = i;
+  });
+  return idx;
+}
+function updateDots() {
+  const ai = getActiveIdx();
+  dots.forEach((d, i) => d.classList.toggle('active', i === ai));
+  navTitle.textContent = sections[ai]?.dataset.title || '';
+}
+dots.forEach(d => {
+  d.addEventListener('click', () => {
+    sections[+d.dataset.idx]?.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ════════════════════════════════════════
+   REVEAL ON SCROLL
+════════════════════════════════════════ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal, .stagger').forEach(el => {
+  if (!el.closest('#s0')) io.observe(el);
+});
+
+window.addEventListener('scroll', () => { updateProgress(); updateDots(); }, { passive: true });
+
+/* ════════════════════════════════════════
+   TAB SWITCHERS
+════════════════════════════════════════ */
+function switchTab(btn, prefix, name) {
+  document.querySelectorAll(`[id^="${prefix}-"]`).forEach(p => p.classList.remove('active'));
+  document.getElementById(`${prefix}-${name}`).classList.add('active');
+  btn.closest('.tab-strip').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const stg = document.getElementById(`${prefix}-${name}`).querySelector('.stagger');
+  if (stg) { stg.classList.remove('visible'); setTimeout(() => stg.classList.add('visible'), 60); }
+}
+function switchCharTab(btn, name) {
+  document.querySelectorAll('[id^="cp-"]').forEach(p => p.classList.remove('active'));
+  document.getElementById('cp-' + name).classList.add('active');
+  btn.closest('.char-tab-strip').querySelectorAll('.char-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function switchUsageTab(btn, name) {
+  document.querySelectorAll('[id^="ut-"]').forEach(p => p.classList.remove('active'));
+  document.getElementById('ut-' + name).classList.add('active');
+  btn.closest('.tab-strip').querySelectorAll('.usage-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const stg = document.getElementById('ut-' + name).querySelector('.stagger');
+  if (stg) { stg.classList.remove('visible'); setTimeout(() => stg.classList.add('visible'), 60); }
+}
+
+/* ════════════════════════════════════════
+   LIGHTBOX
+════════════════════════════════════════ */
+const lb    = document.getElementById('lightbox');
+const lbImg = document.getElementById('lb-img');
+const lbCap = document.getElementById('lb-cap');
+
+function openLightbox(img) {
+  lbImg.src = img.src;
+  // Caption = alt text, strip "(AI 활용 및 수정)" for display
+  let cap = img.alt || '';
+  lbCap.textContent = cap;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(() => { lbImg.src = ''; }, 200);
+}
+lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+// Attach lightbox to all .lb-trigger images
+document.querySelectorAll('img.lb-trigger').forEach(img => {
+  img.addEventListener('click', () => openLightbox(img));
+  // Also handle lazy-loaded images
+  if (!img.complete) img.addEventListener('load', () => {});
+});
+
+/* ════════════════════════════════════════
+   CHART.JS — STATISTICS
+════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx = document.getElementById('stats-chart');
+  if (!ctx || typeof Chart === 'undefined') return;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['SNS 팔로워 성장', '굿즈 재방문율', '콘텐츠 인게이지먼트'],
+      datasets: [
+        {
+          label: '일반 브랜드 (기준 100)',
+          data: [100, 40, 100],
+          backgroundColor: 'rgba(148,163,184,0.2)',
+          borderColor:      'rgba(148,163,184,0.45)',
+          borderWidth: 1,
+          borderRadius: 5,
+        },
+        {
+          label: '캐릭터 보유 브랜드',
+          data: [300, 68, 240],
+          backgroundColor: ['rgba(249,115,22,0.68)', 'rgba(249,115,22,0.68)', 'rgba(249,115,22,0.68)'],
+          borderColor:      ['#f97316', '#f97316', '#f97316'],
+          borderWidth: 1,
+          borderRadius: 5,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      animation: { duration: 1200, easing: 'easeOutQuart' },
+      plugins: {
+        legend: {
+          labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 14 }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const v = ctx.raw;
+              const labels0 = ['100 (기준)', '40% (기준)', '100 (기준)'];
+              const labels1 = ['300 → 3배 증가', '68% 재방문', '240 → 2.4배 증가'];
+              return ' ' + (ctx.datasetIndex === 0 ? labels0[ctx.dataIndex] : labels1[ctx.dataIndex]);
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          max: 320,
+          ticks: { color: '#94a3b8', font: { size: 10 }, callback: v => v + '%' },
+          grid:  { color: 'rgba(255,255,255,0.04)' }
+        },
+        y: {
+          ticks: { color: '#f1f5f9', font: { size: 11 } },
+          grid:  { display: false }
+        }
+      }
+    }
+  });
+});
+
+/* ════════════════════════════════════════
+   CHART.JS — POPULATION PYRAMID
+════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx2 = document.getElementById('pyramid-chart');
+  if (!ctx2 || typeof Chart === 'undefined') return;
+
+  // 데이터: 남성(음수), 여성(양수) — 연령대별 비율
+  const ageGroups = ['10대','20대','30대','40대','50대','60대+'];
+  const maleData  = [-3, -12, -18, -28, -16, -7]; // 음수 = 왼쪽(남성)
+  const femaleData = [2,   9,  14,  12,   8,   4]; // 양수 = 오른쪽(여성)
+
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: ageGroups,
+      datasets: [
+        {
+          label: '남성',
+          data: maleData,
+          backgroundColor: 'rgba(96,165,250,0.65)',
+          borderColor: '#60a5fa',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: '여성',
+          data: femaleData,
+          backgroundColor: 'rgba(244,114,182,0.65)',
+          borderColor: '#f472b6',
+          borderWidth: 1,
+          borderRadius: 4,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      animation: { duration: 1000, easing: 'easeOutQuart' },
+      plugins: {
+        legend: { labels: { color: '#94a3b8', font: { size: 11 }, boxWidth: 12 } },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const v = Math.abs(ctx.raw);
+              return ' ' + ctx.dataset.label + ': ' + v + '%';
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: '#94a3b8', font: { size: 10 },
+            callback: v => Math.abs(v) + '%'
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        },
+        y: {
+          ticks: { color: '#f1f5f9', font: { size: 11 } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+</script>
+
+<!-- ════════════════════════════════════════
+     FIREBASE VOTING — ES Module (공식 권장 방식)
+════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp }                               from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, onValue, runTransaction, set } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCJSgQDP09ShAyN6PVZqjB2Pj2cZCVDecQ",
+  authDomain:        "ggw-character-vote.firebaseapp.com",
+  databaseURL:       "https://ggw-character-vote-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId:         "ggw-character-vote",
+  storageBucket:     "ggw-character-vote.firebasestorage.app",
+  messagingSenderId: "869084052455",
+  appId:             "1:869084052455:web:6d7e048ad70a19dec75b42"
+};
+
+const app      = initializeApp(firebaseConfig);
+const db       = getDatabase(app);
+const votesRef = ref(db, 'ggw_char_votes');
+
+const VOTED_KEY      = 'ggw_voted_v1'; // 이 기기의 투표 기록
+const ADMIN_PASSWORD = 'ggw2025';      // ← 원하는 비밀번호로 변경 가능
+
+let latestCounts   = { A: 0, B: 0, C: 0 };
+let resultsVisible = false;
+
+/* ── 이 기기의 투표 기록 (localStorage) ── */
+function getVotedState() {
+  try { return JSON.parse(localStorage.getItem(VOTED_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+
+function updateButtonStates() {
+  const voted = getVotedState();
+  ['A','B','C'].forEach(opt => {
+    const btn = document.getElementById('vbtn-' + opt);
+    if (!btn) return;
+    if (voted[opt]) {
+      btn.disabled = true;
+      btn.textContent = '✓ 투표완료';
+    } else {
+      btn.disabled = false;
+      btn.textContent = '👍 투표';
+    }
+  });
+}
+
+/* ── 실시간 리스너: 모든 접속자 화면에 즉시 반영 ── */
+onValue(votesRef, snapshot => {
+  latestCounts = snapshot.val() || { A: 0, B: 0, C: 0 };
+  ['A','B','C'].forEach(opt => {
+    const badge = document.getElementById('vcount-' + opt);
+    if (badge) badge.textContent = latestCounts[opt] || 0;
+  });
+  if (resultsVisible) renderResults(latestCounts);
+});
+
+function renderResults(counts) {
+  const c     = { A: counts.A||0, B: counts.B||0, C: counts.C||0 };
+  const total = (c.A + c.B + c.C) || 1;
+  ['A','B','C'].forEach(opt => {
+    const bar = document.getElementById('bar-' + opt);
+    const cnt = document.getElementById('cnt-' + opt);
+    if (!bar) return;
+    const pct = Math.round(c[opt] / total * 100);
+    bar.style.width = pct + '%';
+    bar.textContent = pct > 8 ? pct + '%' : '';
+    if (cnt) cnt.textContent = c[opt] + '표';
+  });
+  const note = document.getElementById('result-note');
+  if (note) {
+    const totalVotes = c.A + c.B + c.C;
+    if (totalVotes === 0) {
+      note.textContent = '아직 투표가 없습니다. 위 버튼을 눌러 투표해주세요.';
+    } else {
+      const winner = ['A','B','C'].reduce((a,b) => c[a] >= c[b] ? a : b);
+      const names  = { A:'안 A (게이머 한우)', B:'안 B (고양이 메이드)', C:'안 C (올라운더 냥이)' };
+      note.textContent = '총 ' + totalVotes + '표 · 현재 1위: ' + names[winner];
+    }
+  }
+}
+
+/* ── window 노출 ── */
+window.castVote = function(opt) {
+  const voted = getVotedState();
+  if (voted[opt]) { showToast('이미 투표하셨습니다.'); return; }
+
+  // Firebase 원자적 증가
+  runTransaction(ref(db, 'ggw_char_votes/' + opt), cur => (cur || 0) + 1);
+
+  // localStorage에 기록 후 버튼 잠금
+  voted[opt] = true;
+  localStorage.setItem(VOTED_KEY, JSON.stringify(voted));
+  updateButtonStates();
+
+  // 배지 팝 애니메이션
+  const badge = document.getElementById('vcount-' + opt);
+  if (badge) { badge.classList.remove('pop'); void badge.offsetWidth; badge.classList.add('pop'); }
+};
+
+window.toggleResults = function() {
+  const el = document.getElementById('vote-results');
+  resultsVisible = !resultsVisible;
+  el.classList.toggle('hidden', !resultsVisible);
+  if (resultsVisible) renderResults(latestCounts);
+};
+
+window.shareVote = function() {
+  const c     = latestCounts;
+  const total = (c.A||0) + (c.B||0) + (c.C||0);
+  const text  = '겜우리한우리 캐릭터 투표 현황\n'
+    + '안 A: '+(c.A||0)+'표 / 안 B: '+(c.B||0)+'표 / 안 C: '+(c.C||0)+'표\n'
+    + '총 ' + total + '표';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text)
+      .then(() => showToast('투표 결과가 클립보드에 복사됐습니다!'))
+      .catch(() => showToast(text));
+  } else { showToast(text); }
+};
+
+/* ── 관리자 초기화 ── */
+window.adminReset = function() {
+  const pw = prompt('관리자 비밀번호:');
+  if (pw === null) return;
+  if (pw !== ADMIN_PASSWORD) { showToast('비밀번호가 틀렸습니다.'); return; }
+  if (!confirm('투표 데이터를 초기화하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) return;
+  set(votesRef, { A: 0, B: 0, C: 0 }).then(() => {
+    localStorage.removeItem(VOTED_KEY);
+    updateButtonStates();
+    showToast('투표가 초기화됐습니다.');
+  });
+};
+
+/* ── 페이지 로드 시 버튼 상태 복원 + 관리자 버튼 삽입 ── */
+document.addEventListener('DOMContentLoaded', () => {
+  updateButtonStates();
+  const wrap = document.querySelector('.vote-wrap');
+  if (wrap) {
+    const adminBtn = document.createElement('button');
+    adminBtn.textContent = '⚙ 관리자 초기화';
+    adminBtn.className = 'admin-reset-btn';
+    adminBtn.onclick = window.adminReset;
+    wrap.appendChild(adminBtn);
+  }
+});
+</script>
+</body>
+</html>
