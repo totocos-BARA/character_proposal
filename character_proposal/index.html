@@ -546,6 +546,96 @@
       white-space: nowrap;
     }
     .toast.show { opacity: 1; }
+
+    /* ═══════════════════════════════════════
+       DESKTOP RESPONSIVE
+    ═══════════════════════════════════════ */
+
+    /* 768px+ — tablet/small desktop: start centering content */
+    @media(min-width: 768px) {
+      /* Center-constrain all sections by converting side padding
+         calc(50vw - 430px) pushes content to max ~860px wide */
+      section {
+        padding-left:  max(44px, calc(50vw - 430px));
+        padding-right: max(44px, calc(50vw - 430px));
+        padding-top: 100px;
+        padding-bottom: 80px;
+      }
+      /* Cover & closing are center-aligned — give them a bit more breathing room */
+      #s0, #s9 {
+        padding-left:  max(40px, calc(50vw - 380px));
+        padding-right: max(40px, calc(50vw - 380px));
+      }
+
+      /* Typography: cap font sizes so they don't balloon */
+      h1 { font-size: clamp(2.8rem, 5vw, 4.2rem); }
+      h2 { font-size: clamp(2rem, 3.5vw, 2.6rem); }
+      p  { font-size: 0.97rem; }
+
+      /* Charts: constrain width & center */
+      .chart-box { max-width: 700px; margin-left: auto; margin-right: auto; }
+
+      /* Grids: more columns on desktop */
+      .trend-grid { grid-template-columns: repeat(4,1fr); }
+      .case-grid  { grid-template-columns: repeat(4,1fr); }
+      .case-grid img { aspect-ratio: 3/2; }
+      .usage-grid { grid-template-columns: repeat(4,1fr); }
+
+      /* Reference: 3 col already, images shouldn't get too tall */
+      .ref-card img { max-height: 280px; object-fit: contain; }
+
+      /* Character layout: two cols + detail row with more cols */
+      .char-layout { grid-template-columns: 1fr 1fr; gap: 30px; }
+      .detail-grid { grid-template-columns: repeat(4, 1fr); }
+
+      /* Stat boxes: fix runaway number sizes */
+      .stat-num { font-size: 1.7rem; }
+
+      /* Vote: center and cap width */
+      .vote-wrap { max-width: 680px; margin-left: auto; margin-right: auto; }
+      .vote-cards { gap: 14px; }
+      .vote-card { min-width: 0; }
+
+      /* Production grid */
+      .prod-grid { max-width: 700px; }
+      .prod-origin { max-width: 700px; }
+
+      /* Hero image cap */
+      .hero-wrap { max-width: 480px; }
+
+      /* Dot nav: show on all sizes on desktop */
+      #dot-nav { display: flex; }
+    }
+
+    /* 1100px+ — wide desktop: fully locked to 860px content column */
+    @media(min-width: 1100px) {
+      section {
+        padding-left:  calc(50vw - 430px);
+        padding-right: calc(50vw - 430px);
+      }
+      #s0, #s9 {
+        padding-left:  calc(50vw - 380px);
+        padding-right: calc(50vw - 380px);
+      }
+
+      /* Character detail: 6 cols (original count) */
+      .detail-grid { grid-template-columns: repeat(6, 1fr); }
+
+      /* Insight cards: row on wide screen */
+      .insight-cards { grid-template-columns: repeat(3, 1fr); }
+
+      /* Roadmap: always 3 cols */
+      .roadmap-grid { grid-template-columns: repeat(3, 1fr); }
+
+      /* Production grid */
+      .prod-grid { grid-template-columns: 1fr 1fr; max-width: 700px; }
+
+      /* Direction grid: side by side comfortably */
+      .direction-grid { grid-template-columns: 1fr 1fr; }
+
+      /* Deform: spacing */
+      .deform-row { gap: 32px; }
+    }
   </style>
 </head>
 <body>
